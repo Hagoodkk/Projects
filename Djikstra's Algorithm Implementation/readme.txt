@@ -1,4 +1,4 @@
-This is a program which implements Djikstra's Algorithm. It calculates the minimum travel cost between two cities with non-negative edge weights.
+This is a program which implements Djikstra's Algorithm. It calculates the minimum travel cost of a connected graph between two cities with non-negative edge weights.
 
 The inputs are:
 Number of nodes
