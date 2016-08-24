@@ -1,7 +1,6 @@
 This is a program completed for CMSC 401 - Algorithm Analysis w/ Advanced Data Structures.
 
-It takes the file cities.csv, which contains city coordinates, adds each to a personally constructed Hash Table,
-then allows the user to look up information pertaining to them.
+It takes as a command line argument the file cities.csv, which contains city coordinates, adds each to a personally constructed Hash Table, then allows the user to look up information pertaining to them.
 
 Commands:
 retrieve cityName
