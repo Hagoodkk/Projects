@@ -1,0 +1,20 @@
+retrieve Khost
+distance Charikar, Paghman
+retrieve Ghazni
+distance Paghman, Gereshk
+retrieve Madziwa
+distance Odzi, Dete
+distance Binga, El Tigre
+retrieve Dolores
+distance Pryluky, Lozova
+distance Mukacheve, Yalta
+retrieve Rades
+distance El Kef, Mlimba
+retrieve Babati
+distance Tumbi, Bariadi
+distance Tadif, Qasim
+retrieve Talbisah
+distance Boston, Boston
+distance Inkhil, Inkhil
+retrieve Masyaf
+stop
