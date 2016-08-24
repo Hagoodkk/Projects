@@ -1,0 +1,6 @@
+Enter the number of nodes: 
+Enter the number of edges: 
+Enter the motel prices at each city:
+Enter the gas prices for traveling between two cities:
+
+2
