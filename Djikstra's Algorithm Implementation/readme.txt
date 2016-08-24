@@ -14,4 +14,4 @@ nodeNum1 nodeNum2 price
 
 The first node is always the start node, and the second node is always the end node.
 
-Given this information, the program constructs an adjacency matrix, runs Djikstra's algorithm, then returns the minimum travel cost.
+Given this information, the program constructs an adjacency matrix, runs Djikstra's algorithm, then outputs the minimum travel cost.
