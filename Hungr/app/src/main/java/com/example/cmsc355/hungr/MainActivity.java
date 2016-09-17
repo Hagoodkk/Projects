@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             apiResponse = apiCall.searchForBusinessesByLocation("food", "Richmond, VA");
             try{
                 JSONObject apiR = new JSONObject(apiResponse);
+
                 System.out.println(apiR);
             }
             catch(Exception e){
