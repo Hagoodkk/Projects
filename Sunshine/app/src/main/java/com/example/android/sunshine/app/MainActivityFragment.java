@@ -303,7 +303,9 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                             .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
                             .appendQueryParameter(APP_ID, apiKey)
                             .build();
+                    System.out.println(builtUri.toString());
                 }
+
                 else{
                     builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                             .appendQueryParameter(QUERY_PARAM, params[0])
