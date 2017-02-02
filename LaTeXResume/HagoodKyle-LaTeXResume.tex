@@ -1,11 +1,29 @@
 \documentclass{article}
+\usepackage{background}
+\usepackage{lipsum}
+\usetikzlibrary{calc}
+
+
+\SetBgScale{1}
+\SetBgAngle{0}
+\SetBgColor{black}
+\SetBgContents{
+\begin{tikzpicture}[overlay,remember picture]
+    \draw [line width=1pt,rounded corners=15pt,double]
+        ($ (current page.north west) + (0.05cm,-0.05cm) $)
+        rectangle
+        ($ (current page.south east) + (-0.05cm,0.05cm) $);
+\end{tikzpicture}
+}
 
 % Needed to set proper margins
 \usepackage[margin=0.5in]{geometry}
 % Needed to declare URLs
 \usepackage{hyperref}
 % Needed to draw box encapsulating contact information				
-\usepackage{mdframed}				
+\usepackage{mdframed}
+% Needed to display bar code graphic		
+\usepackage{graphicx}		
 
 % Removes page number at bottom
 \pagenumbering{gobble}				
@@ -40,7 +58,7 @@ Expected Graduation, May 2017
 
 \subsection*{Projects}
 
-\hspace*{1.0in} \begin{itshape}OSGi Multitenant Cloud Application \hfill Aug 2016 - Present\end{itshape}
+\hspace*{0.9in} \begin{itshape}OSGi Multitenant Cloud Application \hfill Aug 2016 - Present\end{itshape}
 \begin{itemize}
 % Removes unnecessary spacing between items in list
 \setlength{\itemsep}{1pt}
@@ -55,7 +73,7 @@ Expected Graduation, May 2017
 \end{itemize}
 \hfill \newline
 
-\hspace*{1.0in}\begin{itshape}Hungr Android Project \hfill Aug 2016 - Dec 2016 \end{itshape}
+\hspace*{0.8in}\begin{itshape}Hungr Android Project \hfill Aug 2016 - Dec 2016 \end{itshape}
 \begin{itemize}
 % Removes unnecessary spacing between items in list
 \setlength{\itemsep}{1pt}
@@ -90,13 +108,16 @@ Expected Graduation, May 2017
 \begin{center} \noindent\rule{14cm}{0.1pt} \end{center}
 
 \subsection*{Other Achievements}
-\hspace*{1.0in} Cybersecurity Club \hfill Dean's list every semester \hfill Phi Theta Kappa Honor Society \newline
+\hspace*{1.0in} Cybersecurity Club \hfill Dean's list every semester \hfill Phi Theta Kappa Honor Society \newline \newline
+
+\begin{center}
+\includegraphics[scale=0.1]{Resume_Barcode}
+\end{center}
 
 %Fills in space so that anything below will be at bottom
 \vfill
 
 \large \hfill \newline \textbf{GitHub} \hfill \textbf{LinkedIn} \newline 
 \normalsize \url{https://github.com/Hagoodkk/Projects} \hfill \url{https://www.linkedin.com/in/kyle-hagood-4248b0126}
-
 
 \end{document}
