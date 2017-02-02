@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.1)  2 FEB 2017 10:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.1)  2 FEB 2017 10:07
 entering extended mode
 **./HagoodKyle-LaTeXResume.tex
 (HagoodKyle-LaTeXResume.tex
@@ -978,10 +978,10 @@ Package rerunfilecheck Info: File `HagoodKyle-LaTeXResume.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 123.
  ) 
 Here is how much of TeX's memory you used:
- 24063 strings out of 493333
- 469955 string characters out of 3130578
- 613110 words of memory out of 3000000
- 27280 multiletter control sequences out of 15000+200000
+ 24059 strings out of 493333
+ 469873 string characters out of 3130578
+ 613014 words of memory out of 3000000
+ 27276 multiletter control sequences out of 15000+200000
  7496 words of font info for 27 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,8n,68p,10434b,989s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -992,7 +992,7 @@ ic/amsfonts/cm/cmr10.pfb><C:/Users/Kyle/AppData/Local/Programs/MiKTeX 2.9/fonts
 X 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Kyle/AppData/Local/Pr
 ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Kyle/AppD
 ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on HagoodKyle-LaTeXResume.pdf (1 page, 90817 bytes).
+Output written on HagoodKyle-LaTeXResume.pdf (1 page, 90820 bytes).
 PDF statistics:
  46 PDF objects out of 1000 (max. 8388607)
  6 named destinations out of 1000 (max. 500000)
