@@ -1,11 +1,10 @@
 package com.example.cmsc355.hungr;
 
 import android.Manifest;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,13 +13,13 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cmsc355.hungr.settings.SelectCategoryActivity;
@@ -31,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private double lati = 32;
     private double longi = -110;
     double[] coordinates;
+
+    boolean getFoodButtonLive = true;
 
     /*
         For testing purposes only.
@@ -93,64 +93,90 @@ public class MainActivity extends AppCompatActivity {
         Else, makes toast explaining problem.
      */
     public void onGetFoodButtonClick(View view) {
-        if (view.getId() == R.id.getFoodButton) {
+        if (view.getId() == R.id.getFoodButton && getFoodButtonLive == true) {
+            getFoodButtonLive = false;
             if (validNetworkConnection()) {
-                int checkPerm = ActivityCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION);
-                if (checkPerm == PackageManager.PERMISSION_GRANTED) {
+                int PERMISSIONS_REQUEST_RESULT = 0;
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSIONS_REQUEST_RESULT);
+            } else {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                getFoodButtonLive = true;
+            }
+        }
+    }
 
-                    LocationManager locationManager;
-                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                    Criteria criteria = new Criteria();
-                    String provider = locationManager.getBestProvider(criteria, false);
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults){
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-                    LocationListener locationListener = new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-
-                        }
-
-                        @Override
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String provider) {
-
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String provider) {
-
-                        }
-                    };
-
-                    locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
-
-                    Location location = locationManager.getLastKnownLocation(provider);
-
-                    try {
+                LocationListener locationListener = new LocationListener() {
+                    public void onLocationChanged(Location location) {
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
                         String latLonStr = concatenateLatLon(latitude, longitude);
-                        System.out.println(latLonStr);
+                        System.out.println("Location Changed: New LatLonStr = " + latLonStr);
                         coordinates = new double[2];
                         coordinates[0] = latitude;
                         coordinates[1] = longitude;
-                    } catch (Exception ex) {
-                        System.out.println("A value was null..");
                     }
-                }
 
-                view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_rotate));
-                PingYelpApi yelpRef = new PingYelpApi();
-                yelpRef.execute();
-            } else {
-                String errorMessage = "No internet connection";
-                DialogFragment errorFragment = ErrorMessage.newInstance(errorMessage);
-                errorFragment.show(getFragmentManager(), "no_internet_error");
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                    }
+
+                    public void onProviderEnabled(String provider) {
+                    }
+
+                    public void onProviderDisabled(String provider) {
+                    }
+                };
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+                String locationProvider = LocationManager.NETWORK_PROVIDER;
+                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+                try {
+                    double latitude = lastKnownLocation.getLatitude();
+                    double longitude = lastKnownLocation.getLongitude();
+                    String latLonStr = concatenateLatLon(latitude, longitude);
+                    System.out.println("LatLonStr " + latLonStr);
+                    coordinates = new double[2];
+                    coordinates[0] = latitude;
+                    coordinates[1] = longitude;
+                    View view = (View) findViewById(R.id.getFoodButton);
+                    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_rotate));
+                    PingYelpApi yelpRef = new PingYelpApi();
+                    yelpRef.execute("Coordinates");
+                } catch (Exception ex) {
+                    Toast.makeText(this, "Could not find your coordinates!\nUsing zip code instead.", Toast.LENGTH_SHORT).show();
+                    pingWithZipCode();
+                }
             }
+        }
+        else {
+            pingWithZipCode();
+        }
+    }
+
+    public void pingWithZipCode(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("zipCode", Context.MODE_PRIVATE);
+        String storedZipCode = sharedPreferences.getString("zipCode", "");
+        if (storedZipCode != "") {
+            View view = (View) findViewById(R.id.getFoodButton);
+            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_rotate));
+            PingYelpApi yelpRef = new PingYelpApi();
+            yelpRef.execute("Location", storedZipCode);
+        }
+        else {
+            Toast.makeText(this, "Add your location in the settings!", Toast.LENGTH_SHORT).show();
+            getFoodButtonLive = true;
         }
     }
 
@@ -196,9 +222,7 @@ public class MainActivity extends AppCompatActivity {
             categoryIntent.putStringArrayListExtra(SEARCH_CATEGORIES, searchCategories);
             startActivityForResult(categoryIntent, REQUEST_CATEGORIES_CHANGE);
         }
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -232,6 +256,16 @@ public class MainActivity extends AppCompatActivity {
         Running such a task on the main thread would cause the app to crash.
      */
     private class PingYelpApi extends AsyncTask<String, String, String> {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("searchLimit", Context.MODE_PRIVATE);
+        String searchLimit = sharedPreferences.getString("searchLimit", "20");
+
+        public String getSearchResultsLocation(YelpApi yelpRef, String searchCategory, String zipCode){
+            return yelpRef.searchForBusinessesByLocation(searchCategory, zipCode, searchLimit);
+        }
+        public String getSearchResultsCoordinates(YelpApi yelpRef, String searchCategory,
+                                                  double lat, double lon, int rad){
+            return yelpRef.searchForBusinessesByCoordinates(searchCategory, lat, lon, rad, searchLimit);
+        }
 
         //Send in API keys and ping the API
         @Override
@@ -240,6 +274,11 @@ public class MainActivity extends AppCompatActivity {
             final String consumerSecret = "CONSUMER_SECRET";
             final String token = "TOKEN";
             final String tokenSecret = "TOKEN_SECRET";
+            final String searchType = params[0];
+            String zipCode = "55555";
+            if (params.length > 1) {
+                zipCode = params[1];
+            }
 
             YelpApi yelpRef = new YelpApi(getYelpApiParams(consumerKey),
                     getYelpApiParams(consumerSecret),
@@ -257,8 +296,13 @@ public class MainActivity extends AppCompatActivity {
                 while (searchIter.hasNext()) {
                     searchCategory = (String)searchIter.next();
                     System.out.println("Searching for: " + searchCategory);
-                    yelpSearchResult = yelpRef.searchForBusinessesByCoordinates(
-                            searchCategory, lati, longi, searchRadiusSetting);
+                    if (searchType.equals("Location")) {
+                        yelpSearchResult = getSearchResultsLocation(yelpRef,
+                                searchCategory, zipCode);
+                    } else {
+                        yelpSearchResult = getSearchResultsCoordinates(yelpRef,
+                                searchCategory, lati, longi, searchRadiusSetting);
+                    }
                     /*
                         Because JSON Objects are represented by an enclosed [ ] notation,
                         this does not allow String.concat to work properly. Here we
@@ -273,9 +317,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                searchResults = yelpRef.searchForBusinessesByCoordinates("food", lati,
-                        longi, searchRadiusSetting);
-
+                if (searchType.equals("Coordinates")) {
+                    searchResults = getSearchResultsCoordinates(yelpRef, "food", lati,
+                            longi, searchRadiusSetting);
+                }
+                else {
+                    searchResults = getSearchResultsLocation(yelpRef, "food", zipCode);
+                }
                 try {
                     JSONObject tempJson = new JSONObject(searchResults);
                     masterArray = tempJson.getJSONArray("businesses");
@@ -290,12 +338,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
 
-            if (apiHasError(str)) {
-                Toast.makeText(getApplicationContext(),
-                        "No restaurants nearby",
-                        Toast.LENGTH_SHORT).show();
-            }
-
             //Get the JSONObject returned from doInBackground,
             //and save from it the businesses JSONArray
 
@@ -308,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
 
             //Calculate the amount of businesses returned in the JSONArray
             setBusinessCount();
-
+/*
             if (debug == 1) {
                 try {
                     //System.out.println(tempJson.toString(4));
@@ -319,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 System.out.println(businessCount);
             }
-
+*/
             // Start ShowRecommendationsActivity only if
             // there is at least one business to display
             if (businessCount != 0 && testVar == 0 && !testingRemoteLocation) {
@@ -344,11 +386,11 @@ public class MainActivity extends AppCompatActivity {
                 newIntent.putExtras(extras);
                 startActivity(newIntent);
             } else {
-                String errorMessage = "No restaurants nearby";
-                DialogFragment errorFragment = ErrorMessage.newInstance(errorMessage);
-                errorFragment.show(getFragmentManager(), "no_restaurants_error");
+                Toast.makeText(getApplicationContext(), "No restaurants nearby!", Toast.LENGTH_SHORT).show();
             }
+            getFoodButtonLive = true;
         }
+
 
     }
     // Unit Test 3

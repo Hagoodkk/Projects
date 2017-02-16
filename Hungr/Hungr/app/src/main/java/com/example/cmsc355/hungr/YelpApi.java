@@ -38,7 +38,7 @@ public class YelpApi {
     private static final String API_HOST = "api.yelp.com";
     private static final String DEFAULT_TERM = "dinner";
     private static final String DEFAULT_LOCATION = "San Francisco, CA";
-    private static final int SEARCH_LIMIT = 20;
+    private static int SEARCH_LIMIT = 20;
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
     private static final int RADIUS_LIMIT = -100;
@@ -80,11 +80,11 @@ public class YelpApi {
      * @param location <tt>String</tt> of the location
      * @return <tt>String</tt> JSON Response
      */
-    public String searchForBusinessesByLocation(String term, String location) {
+    public String searchForBusinessesByLocation(String term, String location, String limit) {
         OAuthRequest request = createOAuthRequest(SEARCH_PATH);
         request.addQuerystringParameter("term", term);
         request.addQuerystringParameter("location", location);
-        request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+        request.addQuerystringParameter("limit", limit);
         return sendRequestAndGetResponse(request);
     }
     /**
@@ -100,12 +100,12 @@ public class YelpApi {
      */
 
     public String searchForBusinessesByCoordinates(String term, double latitude,
-                                                   double longitude, int radius) {
+                                                   double longitude, int radius, String limit) {
         OAuthRequest request = createOAuthRequest(SEARCH_PATH);
         request.addQuerystringParameter("term", term);
         request.addQuerystringParameter("ll", latitude + "," + longitude);
         request.addQuerystringParameter("radius_filter", String.valueOf(radius));
-        request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+        request.addQuerystringParameter("limit", limit);
         return sendRequestAndGetResponse(request);
     }
 
@@ -157,7 +157,7 @@ public class YelpApi {
      */
     private static void queryApi(YelpApi yelpApi, YelpApiCli yelpApiCli) {
         String searchResponseJson =
-                yelpApi.searchForBusinessesByLocation(yelpApiCli.term, yelpApiCli.location);
+                yelpApi.searchForBusinessesByLocation(yelpApiCli.term, yelpApiCli.location, "20");
 
         JSONParser parser = new JSONParser();
         JSONObject response = null;

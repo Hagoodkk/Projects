@@ -29,7 +29,6 @@ public class ShowRecommendationInfoActivity
     private JSONObject restaurantJson;
     private GestureDetector gestureDetector;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,7 +227,7 @@ public class ShowRecommendationInfoActivity
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v1, float v2) {
-        if (motionEvent1.getY() - motionEvent.getY() > 80 && Math.abs(1) > 50) {
+        if (motionEvent1.getY() - motionEvent.getY() > 100 && Math.abs(v1) > 50) {
             finish();
             return true;
         }

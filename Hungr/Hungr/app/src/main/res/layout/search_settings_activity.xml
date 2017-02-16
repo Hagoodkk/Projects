@@ -14,6 +14,7 @@
         android:padding="1px"
         android:textColor="#000000"
         android:weightSum="2" >
+        <!-- NOT YET IMPLEMENTED
         <Switch
             android:text="Show Only Restaurants With Deals"
             android:layout_width="match_parent"
@@ -22,6 +23,49 @@
             android:id="@+id/deals_only_switch"
             android:layout_weight="0.10"
             android:textStyle="bold" />
+            -->
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:padding="1px"
+        android:weightSum="2" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="5dp"
+            android:scrollHorizontally="true"
+            android:maxLines="1"
+            android:text="Zip Code"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/zip_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,6 +78,7 @@
         android:padding="1px"
         android:weightSum="2" >
 
+        <!-- NOT YET IMPLEMENTED
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,6 +111,7 @@
             android:padding="10dp"
             android:textSize="15sp"
             android:textColor="#000000" />
+        -->
     </LinearLayout>
 
     <LinearLayout
@@ -121,6 +167,7 @@
         android:padding="1px"
         android:weightSum="2" >
 
+        <!-- NOT YET IMPLEMENTED
         <TextView
             android:id="@+id/categoryText"
             android:layout_width="match_parent"
@@ -153,6 +200,7 @@
             android:hint="Not supported yet"
             android:padding="10dp"
             android:textSize="15sp" />
+            -->
     </LinearLayout>
 
     <LinearLayout
@@ -165,6 +213,7 @@
         android:padding="1px"
         android:weightSum="2" >
 
+        <!-- NOT YET IMPLEMENTED
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -194,6 +243,7 @@
             android:hint="Not supported yet"
             android:padding="10dp"
             android:textSize="15sp" />
+            -->
     </LinearLayout>
 
 
