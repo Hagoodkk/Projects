@@ -1,3 +1,0 @@
-1. We never add anything to the new state after we read in the file. --fixed --Zac
-2. Display was crashing with no running proc --fixed --Zac 
-3. Input was setting wrong variable for execution cycles --fixed --Zac
