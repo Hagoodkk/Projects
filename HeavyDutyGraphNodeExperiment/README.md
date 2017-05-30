@@ -1,10 +1,12 @@
 # Heavy Duty Graph Node Experiment
 
-Compile Instruction:
+**Compile Instruction**
+
 Open command line in SNAProj/src/
 Input in command line: 'javac -classpath DIRECTORY_PATH\SNAProj\lib\* *.java'
 
-Run Instruction:
+**Run Instruction**
+
 Open command line in SNAProj/src/
 Input in command line: 'java -cp DIRECTORY_PATH\SNAProj\lib\*;. SNAPProj CSV_FILE_DIRECTORY TEST_NUM'
 
