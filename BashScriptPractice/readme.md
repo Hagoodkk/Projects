@@ -14,5 +14,4 @@
 8. Outputs the number of alphanumeric words
 
 **Run Instruction**
-
-Simply enter "bash assign-4.sh nameOfFile", where "nameOfFile" is the file to be analyzed.
+1. Simply enter "bash assign-4.sh nameOfFile", where "nameOfFile" is the file to be analyzed.
