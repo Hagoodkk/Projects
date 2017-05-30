@@ -1,4 +1,4 @@
-#Bash Script
+# Bash Script
 
 *Bash script which performs multiple actions including finding words using regular expressions, counting lines, and counting repeated words.*
 
