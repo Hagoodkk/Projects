@@ -12,3 +12,7 @@
 6. Outputs number of words which starts with 'A' or 'a' and ends with any letter
 7. Outputs the number of numeric words
 8. Outputs the number of alphanumeric words
+
+**Run Instruction**
+
+Simply enter "bash assign-4.sh nameOfFile", where "nameOfFile" is the file to be analyzed.
