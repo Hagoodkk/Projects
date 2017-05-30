@@ -9,6 +9,7 @@ Security Measures
 Our project hides all sensitive information before database storage, including account and managed passwords. Encryption is accomplished using a password based encryption scheme, where a symmetric private key is built from a pre-generated random 16-bit string. Upon successful key generation, the plaintext data is obfuscated using the SHA-256 hashing algorithm. The hashed data is then encrypted using 128 bit AES with the Cipher-Block-Chaining technique. Only after all sensitive data has been successfully encrypted is any of it stored. 
 
 JCE Unlimited Strength Jurisdiction Policy Files 
+
 Java behavior dictates that extension of the default cryptographic library requires special policy files to be added to the Java Virtual Machine installation. Required files are found within the project structure. 
 
 File name - “jce_policy-8.zip” 
