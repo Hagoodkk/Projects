@@ -16,7 +16,7 @@ File name - “jce_policy-8.zip”
 
 File Placement - %JAVA_HOME%/jre/lib/security and %JAVA_HOME%/jdk/jre/lib/security 
 
-**Run Instruction **
+**Run Instruction**
 1. Install the latest version of Java 
 2. Install JCE Unlimited Strength Jurisdiction Policy Files into Java Installation 
 3. Download IntelliJ IDE 
