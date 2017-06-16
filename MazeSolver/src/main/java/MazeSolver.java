@@ -1,6 +1,13 @@
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseCredentials;
+import com.google.firebase.database.*;
+
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +21,11 @@ public class MazeSolver {
     static boolean debug = false;
 
     public static void main(String[] args) {
+
+        DatabaseReference databaseReference = initializeDatabase();
+        DatabaseReference mazeRef = databaseReference.child("/MazeHashes");
+        mazeRef.setValue("TryThis");
+
         if (!(args.length > 0)) {
             System.out.println("File name not specified. Exiting program.");
             System.exit(1);
@@ -25,10 +37,84 @@ public class MazeSolver {
         String fileName = args[0];
 
         int[][] maze = readMazeFromFile(fileName);
+
+        // Check if maze is already in database here
+        String hashedMazeString = generateMazeHash(maze);
+        if (debug) System.out.println(hashedMazeString);
+
         if (debug) printMaze(maze);
 
         HashMap<Integer, ArrayList<Integer>> mazeHash = mazeMatrixToMazeHash(maze);
-        System.out.println(findBestPathInMazeHash(mazeHash, startNode, endNode));
+        String solution = findBestPathInMazeHash(mazeHash, startNode, endNode);
+
+        System.out.println("Solution: " + solution);
+
+        // Add the solution to the database here
+
+    }
+
+    private static String generateMazeHash(int[][] maze) {
+
+        String mazeString = "";
+        String hashedMazeString = null;
+
+        for (int i = 0; i < maze.length; i++) {
+            mazeString += Arrays.toString(maze[i]) + "\n";
+        }
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(mazeString.getBytes());
+            byte byteData[] = md.digest();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashedMazeString = sb.toString();
+
+        } catch (Exception e) {
+            System.out.println("Maze could not be hashed.");
+            return null;
+        }
+
+        return hashedMazeString;
+    }
+
+    private static DatabaseReference initializeDatabase() {
+        DatabaseReference databaseReference = null;
+        try {
+            FileInputStream serviceAccount = new FileInputStream("MazeSolver-9c1be08eb792.json");
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
+                    .setDatabaseUrl("https://mazesolver-a83a8.firebaseio.com/")
+                    .build();
+            FirebaseApp.initializeApp(options);
+
+            // As an admin, the app has access to read and write all data, regardless of Security Rules
+            databaseReference = FirebaseDatabase
+                    .getInstance()
+                    .getReference("mazesolver-a83a8");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Object document = dataSnapshot.getValue();
+                    System.out.println(document);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println(databaseError.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            System.out.println("Could not connect to database. Solution caching disabled.");
+            return databaseReference;
+        }
+        return databaseReference;
     }
 
     private static String findBestPathInMazeHash(HashMap<Integer, ArrayList<Integer>> mazeHash, int startNode, int endNode) {
@@ -64,7 +150,7 @@ public class MazeSolver {
             }
             visitedNodes[minPathValuePos] = true;
         }
-        System.out.println("\n" + Arrays.toString(nodePaths));
+        if (debug) System.out.println("\n" + Arrays.toString(nodePaths));
 
         returnStr = String.valueOf(endNode);
 
