@@ -22,8 +22,8 @@ public class MazeSolver {
         int endNode = 8;
 
         if (args.length > 1 && args[1].equals("-d")) debug = true;
-
         String fileName = args[0];
+
         int[][] maze = readMazeFromFile(fileName);
         if (debug) printMaze(maze);
 
