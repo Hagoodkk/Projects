@@ -6,4 +6,6 @@ Maze solver takes as input a 2d array where:
 3. Open paths are represented by a '0'
 4. The exit is represented by a '9'
 
-Maze solver runs Djikstra's algorithm and finds the shortest path from start to finish. It's a simple program put together mostly for me to use with JUnit Testing, Jenkins, and possibly Docker, to practice continuous integration and DevOp's.
+Maze solver runs Djikstra's algorithm and finds the shortest path from start to finish. Previously found solutions are cached in an embedded H2 database with use of a one-way hashing algorithm.
+
+It's a simple program put together mostly for me to use with JUnit Testing, Jenkins, and possibly Docker, to practice continuous integration and DevOp's.
