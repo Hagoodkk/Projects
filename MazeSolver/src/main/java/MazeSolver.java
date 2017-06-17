@@ -1,17 +1,16 @@
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.database.*;
-
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.security.MessageDigest;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+
 
 /**
  * Created by Kyle on 6/14/2017.
@@ -19,37 +18,39 @@ import java.util.HashMap;
 
 public class MazeSolver {
     static boolean debug = false;
+    static int startNode, endNode;
 
     public static void main(String[] args) {
 
-        DatabaseReference databaseReference = initializeDatabase();
-        DatabaseReference mazeRef = databaseReference.child("/MazeHashes");
-        mazeRef.setValue("TryThis");
+        Connection connection = initializeDatabase();
+        String solution;
 
         if (!(args.length > 0)) {
             System.out.println("File name not specified. Exiting program.");
             System.exit(1);
         }
-        int startNode = 1;
-        int endNode = 8;
 
         if (args.length > 1 && args[1].equals("-d")) debug = true;
         String fileName = args[0];
 
         int[][] maze = readMazeFromFile(fileName);
 
-        // Check if maze is already in database here
         String hashedMazeString = generateMazeHash(maze);
         if (debug) System.out.println(hashedMazeString);
+
+        if ((solution = checkDatabaseForSolution(connection, hashedMazeString)) != null) {
+            System.out.println("Solution retrieved from database.");
+            System.out.println("Solution: " + solution);
+            System.exit(0);
+        }
 
         if (debug) printMaze(maze);
 
         HashMap<Integer, ArrayList<Integer>> mazeHash = mazeMatrixToMazeHash(maze);
-        String solution = findBestPathInMazeHash(mazeHash, startNode, endNode);
+        solution = findBestPathInMazeHash(mazeHash, startNode, endNode);
 
+        System.out.println(addSolutionToDatabase(connection, hashedMazeString, solution));
         System.out.println("Solution: " + solution);
-
-        // Add the solution to the database here
 
     }
 
@@ -81,40 +82,45 @@ public class MazeSolver {
         return hashedMazeString;
     }
 
-    private static DatabaseReference initializeDatabase() {
-        DatabaseReference databaseReference = null;
+    private static Connection initializeDatabase() {
+        Connection connection = null;
         try {
-            FileInputStream serviceAccount = new FileInputStream("MazeSolver-9c1be08eb792.json");
-
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-                    .setDatabaseUrl("https://mazesolver-a83a8.firebaseio.com/")
-                    .build();
-            FirebaseApp.initializeApp(options);
-
-            // As an admin, the app has access to read and write all data, regardless of Security Rules
-            databaseReference = FirebaseDatabase
-                    .getInstance()
-                    .getReference("mazesolver-a83a8");
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Object document = dataSnapshot.getValue();
-                    System.out.println(document);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.out.println(databaseError.getMessage());
-                }
-            });
-
+            Class.forName("org.h2.Driver");
+            connection = DriverManager.getConnection("jdbc:h2:~/MazeHashes", "MazeHashesProgram", "NJ5nFd8e8k2KAWCr");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("CREATE TABLE MAZESOLUTIONS(\n" +
+                    "\tMAZEHASH VARCHAR\tNOT NULL,\n" +
+                    "\tSOLUTION VARCHAR\tNOT NULL,\n" +
+                    "\tPRIMARY KEY (MAZEHASH)\n" +
+                    ");");
+            return connection;
 
         } catch (Exception e) {
-            System.out.println("Could not connect to database. Solution caching disabled.");
-            return databaseReference;
+            if (connection == null) System.out.println("Could not connect to database.");
+            return connection;
         }
-        return databaseReference;
+    }
+
+    private static String checkDatabaseForSolution(Connection connection, String mazeHash) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT SOLUTION FROM MAZESOLUTIONS WHERE MAZEHASH = '" + mazeHash + "'");
+            if (rs.next()) return rs.getString("SOLUTION");
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static String addSolutionToDatabase(Connection connection, String mazeHash, String solution) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO MAZESOLUTIONS (MAZEHASH, SOLUTION) VALUES ('" + mazeHash + "','" + solution + "')");
+            return "Successfully added solution to database.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Could not add solution to database.";
+        }
     }
 
     private static String findBestPathInMazeHash(HashMap<Integer, ArrayList<Integer>> mazeHash, int startNode, int endNode) {
@@ -180,11 +186,22 @@ public class MazeSolver {
 
     private static HashMap<Integer, ArrayList<Integer>> mazeMatrixToMazeHash(int[][] maze) {
         int nodeCount = 0;
+        boolean firstZeroFound = false;
+
         for (int i = 0; i < maze.length ;i++) {
             for (int j = 0; j < maze.length; j++) {
                 if (maze[i][j] == 1) maze[i][j] = 0;
-                else if (maze[i][j] == 0) maze[i][j] = ++nodeCount;
-                else if (maze[i][j] == 9) maze[i][j] = ++nodeCount;
+                else if (maze[i][j] == 0) {
+                    maze[i][j] = ++nodeCount;
+                    if (!firstZeroFound) {
+                        startNode = nodeCount;
+                        firstZeroFound = true;
+                    }
+                }
+                else if (maze[i][j] == 9) {
+                    maze[i][j] = ++nodeCount;
+                    endNode = nodeCount;
+                }
             }
         }
         if (debug) printMaze(maze);
