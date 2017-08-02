@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="277.0"
+      prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.project.WelcomeScreen.WelcomeScreenController" fx:id="root">
+   <children>
+      <Button fx:id="signIn_button" layoutX="199.0" layoutY="157.0" mnemonicParsing="false" text="Sign In"
+      onAction="#handleSignInButtonAction"/>
+      <Label layoutX="103.0" layoutY="73.0" text="Username" />
+      <Label layoutX="105.0" layoutY="115.0" text="Password" />
+      <TextField fx:id="username_field" layoutX="103.0" layoutY="90.0" onKeyPressed="#handleKeyPressed"/>
+      <PasswordField fx:id="password_field" layoutX="103.0" layoutY="132.0" onKeyPressed="#handleKeyPressed"/>
+   </children>
+</Pane>
