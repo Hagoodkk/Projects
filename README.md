@@ -3,7 +3,7 @@
 *In this section, you will find a collection of personal and school projects for demonstration.*
 
 **Table of Contents**
-1. **Chat App** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. Use usernames "Joan" and "Bob" for testing purposes.
+1. **Chat App (Personal Project)** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. Use usernames "Joan" and "Bob" for testing purposes.
 2. **Custom Hash Table Data Lookup** - hash table built using a custom LinkedList implementation. Allows for the lookup of city coordinates and calculations of distance between cities using command line entries.
 3. **Cyber Security Password Management System** - system built on JavaFX and employs the H2 embedded database which allows users to securely store passwords.
 4. **Djikstra's Algorithm Implementation** - takes in a weighted graph as input with cities as nodes and calculates the minimum travel cost between two of them.
