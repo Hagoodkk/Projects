@@ -1,6 +1,6 @@
 # Projects
 
-*In this section, you will find a collection of school projects for demonstration.*
+*In this section, you will find a collection of personal and school projects for demonstration.*
 
 **Table of Contents**
 1. **Chat App** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. Use usernames "Joan" and "Bob" for testing purposes.
