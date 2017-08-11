@@ -1,5 +1,6 @@
 package com.example.project.BuddyListScreen;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -8,12 +9,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class CustomTreeItem extends TreeItem {
     private ImageView buddyIcon;
     private Label label;
     private String buddyDisplayName;
-    private boolean recentlyLoggedOff, recentlyLoggedOn;
     private boolean isUser;
+
+    private Timer timer = new Timer();
 
     public CustomTreeItem(HBox hbox, String labelText, boolean isGroup, boolean isRoot) {
         super(hbox);
@@ -39,26 +44,32 @@ public class CustomTreeItem extends TreeItem {
         hbox.getChildren().addAll(buddyIcon, label);
     }
 
-    public boolean isRecentlyLoggedOff() {
-        return recentlyLoggedOff;
-    }
-
-    public void setRecentlyLoggedOff(boolean recentlyLoggedOff) {
+    public void setRecentlyLoggedOff() {
         label.setText("(" + this.buddyDisplayName + ")");
-        this.recentlyLoggedOff = recentlyLoggedOff;
+        timer.cancel();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+           @Override
+           public void run() {
+               resetLabel();
+           }
+        }, 15000);
     }
 
-    public boolean isRecentlyLoggedOn() {
-        return recentlyLoggedOn;
-    }
-
-    public void setRecentlyLoggedOn(boolean recentlyLoggedOn) {
+    public void setRecentlyLoggedOn() {
         label.setText(this.buddyDisplayName + "*");
-        this.recentlyLoggedOn = recentlyLoggedOn;
+        timer.cancel();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+           @Override
+           public void run() {
+               resetLabel();
+           }
+        }, 15000);
     }
 
     public void resetLabel() {
-        label.setText(buddyDisplayName);
+        Platform.runLater(() -> label.setText(buddyDisplayName));
     }
 
     public boolean isUser() {

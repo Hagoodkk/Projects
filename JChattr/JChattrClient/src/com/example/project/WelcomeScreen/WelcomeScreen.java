@@ -21,7 +21,7 @@ public class WelcomeScreen extends Application {
         WelcomeScreenController welcomeScreenController = loader.getController();
         sessionManager.setWelcomeScreenController(welcomeScreenController);
         Stage welcomeScreenStage = new Stage();
-        welcomeScreenStage.setTitle("Chattr");
+        welcomeScreenStage.setTitle("JChattr");
 
         welcomeScreenStage.getIcons().add(new Image("images/appIcon.gif"));
 

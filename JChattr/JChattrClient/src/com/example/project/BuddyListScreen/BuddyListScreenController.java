@@ -10,7 +10,6 @@ import com.example.project.WelcomeScreen.WelcomeScreenController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +39,9 @@ public class BuddyListScreenController {
     HBox buddylist_icon_hbox;
 
     private Timer timer;
+
+    private Timer newlyOnlineTimer = new Timer();
+    private Timer newlyOfflineTimer = new Timer();
 
     private SessionManager sessionManager = SessionManager.getInstance();
     private Socket clientSocket = sessionManager.getClientSocket();
@@ -174,20 +176,30 @@ public class BuddyListScreenController {
     private void updateBuddyList(String sender, int state) {
         if (!sessionManager.getBuddyList().hasBuddy(sender)) return;
         String groupName = sessionManager.getBuddyList().getGroupName(sender);
+        CustomTreeItem treeItem;
 
         if (state == 0) {
-            CustomTreeItem treeItem = offlineUsers.get(sender);
-            groups.get(groupName).getChildren().add(treeItem);
-            groups.get("offline").getChildren().remove(treeItem);
-            offlineUsers.remove(sender);
-            onlineUsers.put(sender, treeItem);
+            System.out.println(sender + " connected.");
+            if ((treeItem = offlineUsers.get(sender)) != null) {
+                groups.get("offline").getChildren().remove(treeItem);
+                groups.get(groupName).getChildren().add(treeItem);
+                offlineUsers.remove(sender);
+                onlineUsers.put(sender, treeItem);
+                treeItem.setRecentlyLoggedOn();
+
+            } else if ((treeItem = onlineUsers.get(sender)) != null) {
+                treeItem.setRecentlyLoggedOn();
+            }
+
         } else if (state == 1) {
-            System.out.println(sender + " disconnected.");
-            CustomTreeItem treeItem = onlineUsers.get(sender);
-            groups.get(groupName).getChildren().remove(treeItem);
-            groups.get("offline").getChildren().add(treeItem);
-            onlineUsers.remove(sender);
-            offlineUsers.put(sender, treeItem);
+                System.out.println(sender + " disconnected.");
+                if ((treeItem = onlineUsers.get(sender)) != null) {
+                    treeItem.setRecentlyLoggedOff();
+                    groups.get(groupName).getChildren().remove(treeItem);
+                    groups.get("offline").getChildren().add(treeItem);
+                    onlineUsers.remove(sender);
+                    offlineUsers.put(sender, treeItem);
+                }
         }
     }
 

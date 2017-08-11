@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import java.lang.*?>
+
 <?import javafx.scene.image.*?>
 <?import java.net.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +8,7 @@
 
 <AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="826.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.BuddyListScreen.BuddyListScreenController">
    <children>
-      <MenuBar prefHeight="26.0" prefWidth="373.0">
+      <MenuBar prefHeight="26.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
