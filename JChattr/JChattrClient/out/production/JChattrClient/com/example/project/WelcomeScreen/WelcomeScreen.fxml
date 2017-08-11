@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" prefHeight="777.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.WelcomeScreen.WelcomeScreenController">
+   <children>
+      <MenuBar layoutY="-4.0" prefHeight="31.0" prefWidth="353.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button fx:id="signIn_button" layoutX="212.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleSignInButtonAction" text="Sign In" />
+      <Label layoutX="26.0" layoutY="216.0" text="Username" />
+      <Label layoutX="28.0" layoutY="276.0" text="Password" />
+      <TextField fx:id="username_field" layoutX="26.0" layoutY="233.0" onKeyPressed="#handleKeyPressed" prefHeight="25.0" prefWidth="280.0" />
+      <PasswordField fx:id="password_field" layoutX="26.0" layoutY="293.0" onKeyPressed="#handleKeyPressed" prefHeight="25.0" prefWidth="280.0" />
+      <Button fx:id="createAccount_button" layoutX="78.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#handleCreateAccountButtonAction" prefHeight="25.0" prefWidth="104.0" text="Create Account" />
+      <HBox alignment="CENTER" layoutX="26.0" layoutY="38.0" prefHeight="164.0" prefWidth="280.0">
+         <children>
+            <ImageView fx:id="welcome_image" fitHeight="164.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

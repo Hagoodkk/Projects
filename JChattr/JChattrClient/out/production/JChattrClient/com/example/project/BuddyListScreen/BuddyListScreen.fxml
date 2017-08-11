@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import java.net.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="826.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.BuddyListScreen.BuddyListScreenController">
+   <children>
+      <MenuBar prefHeight="26.0" prefWidth="373.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TreeView fx:id="buddy_list_tree" layoutX="82.0" layoutY="96.0" onMouseClicked="#handleMouseClick" prefHeight="730.0" prefWidth="209.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="96.0"/>
+      <HBox fx:id="buddylist_icon_hbox" layoutY="26.0" prefHeight="71.0" prefWidth="83.0">
+         <children>
+            <ImageView fx:id="buddylist_icon" fitHeight="71.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true"/>
+         </children>
+      </HBox>
+   </children>
+   <stylesheets>
+      <URL value="@ListViewStyleSheet.css" />
+   </stylesheets>
+</AnchorPane>
