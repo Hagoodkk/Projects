@@ -115,7 +115,7 @@ public class BuddyListScreenController {
                             controller.appendText(serverInbound.getSender(), serverInbound.getMessage());
                         } else {
                             ChatWindow chatWindow = new ChatWindow();
-                            chatWindow.initData(username, serverInbound.getSender(), serverInbound.getSenderDisplayName());
+                            chatWindow.initData(username, serverInbound.getSenderDisplayName());
                             try {
                                 chatWindow.start();
                                 ChatWindowController controller2 =
@@ -215,7 +215,7 @@ public class BuddyListScreenController {
                     chatWindowController.requestFocus();
                 } else {
                     ChatWindow chatWindow = new ChatWindow();
-                    chatWindow.initData(username, recipient, recipient);
+                    chatWindow.initData(username, recipient);
                     try {
                         chatWindow.start();
                     } catch (Exception e) {

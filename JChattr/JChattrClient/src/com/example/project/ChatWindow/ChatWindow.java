@@ -13,17 +13,16 @@ public class ChatWindow {
     private SessionManager sessionManager = SessionManager.getInstance();
 
     private String username;
-    private String recipient;
-    private String senderDisplayName;
+    private String recipientDisplayName;
 
     public void start() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatWindow.fxml"));
         Parent root = loader.load();
         ChatWindowController controller = loader.getController();
-        sessionManager.addChatWindowController(username, recipient, controller);
-        controller.initData(username, recipient);
+        sessionManager.addChatWindowController(username, recipientDisplayName, controller);
+        controller.initData(username, recipientDisplayName);
         Stage chatWindowStage = new Stage();
-        chatWindowStage.setTitle("Chat with " + senderDisplayName);
+        chatWindowStage.setTitle("Chat with " + recipientDisplayName);
         chatWindowStage.getIcons().add(new Image("images/penguin1.png"));
 
         chatWindowStage.setScene(new Scene(root, 502, 344));
@@ -32,9 +31,8 @@ public class ChatWindow {
         chatWindowStage.show();
     }
 
-    public void initData(String username, String recipient, String senderDisplayName) {
+    public void initData(String username, String recipientDisplayName) {
         this.username = username;
-        this.recipient = recipient;
-        this.senderDisplayName = senderDisplayName;
+        this.recipientDisplayName = recipientDisplayName;
     }
 }
