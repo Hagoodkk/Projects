@@ -115,7 +115,7 @@ public class BuddyListScreenController {
                             controller.appendText(serverInbound.getSender(), serverInbound.getMessage());
                         } else {
                             ChatWindow chatWindow = new ChatWindow();
-                            chatWindow.initData(username, serverInbound.getSender());
+                            chatWindow.initData(username, serverInbound.getSender(), serverInbound.getSenderDisplayName());
                             try {
                                 chatWindow.start();
                                 ChatWindowController controller2 =
@@ -205,7 +205,7 @@ public class BuddyListScreenController {
 
     public void handleMouseClick(MouseEvent mouseEvent) {
         CustomTreeItem treeItem = (CustomTreeItem) buddy_list_tree.getSelectionModel().getSelectedItem();
-        if (!treeItem.isUser()) return;
+        if (treeItem == null || !treeItem.isUser()) return;
 
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
             if (mouseEvent.getClickCount() == 2) {
@@ -215,7 +215,7 @@ public class BuddyListScreenController {
                     chatWindowController.requestFocus();
                 } else {
                     ChatWindow chatWindow = new ChatWindow();
-                    chatWindow.initData(username, recipient);
+                    chatWindow.initData(username, recipient, recipient);
                     try {
                         chatWindow.start();
                     } catch (Exception e) {

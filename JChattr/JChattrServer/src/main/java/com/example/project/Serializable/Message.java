@@ -6,6 +6,15 @@ public class Message implements Serializable{
     private String sender, recipient, message, salt, passwordSaltedHash, logOn, logOut;
     private boolean error, nullMessage, buddyListUpdate, loginRequest, saltRequest, logOnEvent, logOutEvent;
     private BuddyList buddyList;
+    private String senderDisplayName;
+
+    public String getSenderDisplayName() {
+        return senderDisplayName;
+    }
+
+    public void setSenderDisplayName(String senderDisplayName) {
+        this.senderDisplayName = senderDisplayName;
+    }
 
     public String getLogOn() {
         return logOn;
@@ -77,8 +86,9 @@ public class Message implements Serializable{
         if (nullMessage) this.nullMessage = true;
     }
 
-    public Message(String sender, String recipient, String message) {
+    public Message(String sender, String displayName, String recipient, String message) {
         this.sender = sender;
+        this.senderDisplayName = displayName;
         this.recipient = recipient;
         this.message = message;
         this.error = false;

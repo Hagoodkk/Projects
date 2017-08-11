@@ -42,6 +42,7 @@ public class ChatWindowController {
     private SessionManager sessionManager = SessionManager.getInstance();
     private String username;
     private String recipient;
+    private String displayName = sessionManager.getDisplayName();
 
     private boolean firstMessage = true;
     private boolean sentLastMessage = false;
@@ -69,7 +70,7 @@ public class ChatWindowController {
 
         String message = input_field.getText();
         if (message.length() == 0) return;
-        Message outgoingMessage = new Message(username, recipient, message);
+        Message outgoingMessage = new Message(username, displayName, recipient, message);
         sessionManager.addOutgoingMessage(outgoingMessage);
 
         Label label = new Label();

@@ -14,6 +14,7 @@ public class ChatWindow {
 
     private String username;
     private String recipient;
+    private String senderDisplayName;
 
     public void start() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatWindow.fxml"));
@@ -22,7 +23,7 @@ public class ChatWindow {
         sessionManager.addChatWindowController(username, recipient, controller);
         controller.initData(username, recipient);
         Stage chatWindowStage = new Stage();
-        chatWindowStage.setTitle("Chat with " + recipient);
+        chatWindowStage.setTitle("Chat with " + senderDisplayName);
         chatWindowStage.getIcons().add(new Image("images/penguin1.png"));
 
         chatWindowStage.setScene(new Scene(root, 502, 344));
@@ -31,8 +32,9 @@ public class ChatWindow {
         chatWindowStage.show();
     }
 
-    public void initData(String username, String recipient) {
+    public void initData(String username, String recipient, String senderDisplayName) {
         this.username = username;
         this.recipient = recipient;
+        this.senderDisplayName = senderDisplayName;
     }
 }
