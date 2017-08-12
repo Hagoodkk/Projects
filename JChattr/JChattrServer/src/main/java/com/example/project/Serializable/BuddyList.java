@@ -8,6 +8,24 @@ public class BuddyList implements Serializable {
     private ArrayList<Buddy> currentlyOnline;
     private ArrayList<Buddy> currentlyOffline;
 
+    private boolean addUser, deleteUser;
+
+    public boolean isAddUser() {
+        return addUser;
+    }
+
+    public void setAddUser(boolean addUser) {
+        this.addUser = addUser;
+    }
+
+    public boolean isDeleteUser() {
+        return deleteUser;
+    }
+
+    public void setDeleteUser(boolean deleteUser) {
+        this.deleteUser = deleteUser;
+    }
+
     public BuddyList() {
         this.buddies = new ArrayList<>();
         this.currentlyOffline = new ArrayList<>();
@@ -44,17 +62,16 @@ public class BuddyList implements Serializable {
 
     public String getGroupName(String buddyName) {
         for (Buddy buddy : buddies) {
-            if (buddy.getDisplayName().equals(buddyName)) {
+            if (buddy.getUsername().equals(buddyName)) {
                 return buddy.getGroupName();
             }
         }
         return null;
     }
 
-
     public boolean hasBuddy(String buddyName) {
         for (Buddy buddy : buddies) {
-            if (buddy.getDisplayName().equals(buddyName)) return true;
+            if (buddy.getUsername().equals(buddyName)) return true;
         }
         return false;
     }

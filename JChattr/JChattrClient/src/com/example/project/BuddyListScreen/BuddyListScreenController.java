@@ -21,11 +21,14 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,9 +42,6 @@ public class BuddyListScreenController {
     HBox buddylist_icon_hbox;
 
     private Timer timer;
-
-    private Timer newlyOnlineTimer = new Timer();
-    private Timer newlyOfflineTimer = new Timer();
 
     private SessionManager sessionManager = SessionManager.getInstance();
     private Socket clientSocket = sessionManager.getClientSocket();
@@ -76,7 +76,6 @@ public class BuddyListScreenController {
         }
 
         int timerInterval = 50;
-        ithSecond = 0;
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -88,19 +87,47 @@ public class BuddyListScreenController {
                 } else {
                     serverOutbound = sessionManager.getOutgoingQueue().remove();
                 }
-                if (ithSecond == (timerInterval / 4)) {
-                    serverOutbound.setBuddyListUpdate(true);
-                    serverOutbound.setBuddyList(sessionManager.getBuddyList());
-                    ithSecond = 0;
-                } else ithSecond++;
 
                 try {
                     toServer.writeObject(serverOutbound);
                     toServer.flush();
                     Message serverInbound = (Message) fromServer.readObject();
                     if (serverInbound.isBuddyListUpdate()) {
-                        // Idk
+                        System.out.println("Buddy List update time");
+                        String buddyUsername = serverInbound.getBuddyList().getBuddies().get(0).getUsername();
+                        System.out.println(buddyUsername);
+                        String buddyDisplayName = serverInbound.getBuddyList().getBuddies().get(0).getDisplayName();
+                        String buddyGroupName = serverInbound.getBuddyList().getBuddies().get(0).getGroupName();
+
+                        if (serverInbound.getBuddyList().isAddUser()) {
+                            if (groups.get(buddyGroupName) == null) {
+                                CustomTreeItem groupItem = new CustomTreeItem(new HBox(), buddyGroupName, true, false);
+                                groups.get("root").getChildren().add(0, groupItem);
+                                groups.put(buddyGroupName, groupItem);
+                            }
+
+                            CustomTreeItem treeItem = new CustomTreeItem(new HBox(), buddyDisplayName, null);
+
+                            if (serverInbound.getBuddyList().getCurrentlyOnline().size() == 0) {
+                                offlineUsers.put(buddyUsername, treeItem);
+                                groups.get("offline").getChildren().add(treeItem);
+                            } else {
+                                onlineUsers.put(buddyUsername, treeItem);
+                                groups.get(buddyGroupName).getChildren().add(treeItem);
+                            }
+                            sessionManager.getBuddyList().addBuddy(new Buddy(buddyUsername, buddyDisplayName, buddyGroupName));
+                        } else if (serverInbound.getBuddyList().isDeleteUser()) {
+                            CustomTreeItem treeItem;
+                            if ((treeItem = offlineUsers.get(buddyUsername)) != null) {
+                                offlineUsers.remove(buddyUsername);
+                                groups.get("offline").getChildren().remove(treeItem);
+                            } else if ((treeItem = onlineUsers.get(buddyUsername)) != null) {
+                                onlineUsers.remove(treeItem);
+                                groups.get(buddyGroupName).getChildren().remove(treeItem);
+                            }
+                        }
                     }
+
                     if (serverInbound.isLogOnEvent()) {
                         updateBuddyList(serverInbound.getLogOn(), 0);
                     }
@@ -192,6 +219,7 @@ public class BuddyListScreenController {
             }
 
         } else if (state == 1) {
+            System.out.println(sender);
                 System.out.println(sender + " disconnected.");
                 if ((treeItem = onlineUsers.get(sender)) != null) {
                     treeItem.setRecentlyLoggedOff();
@@ -235,4 +263,40 @@ public class BuddyListScreenController {
         sessionManager.nullify();
     }
 
+    public void handleAddBuddyButtonAction() {
+        String buddyNameInput = (String) JOptionPane.showInputDialog(
+                new Frame(),
+                "Enter buddy name",
+                "Add Buddy",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                null);
+        Message message = new Message();
+        message.setSender(username);
+        message.setBuddyListUpdate(true);
+        BuddyList buddyList = new BuddyList();
+        buddyList.setAddUser(true);
+        Buddy buddy = new Buddy(buddyNameInput.toLowerCase(), buddyNameInput, "Friends");
+        buddyList.addBuddy(buddy);
+        message.setBuddyList(buddyList);
+        message.setNullMessage(true);
+        sessionManager.addOutgoingMessage(message);
+    }
+
+    public void handleDeleteBuddyButtonAction() {
+        CustomTreeItem treeItem = (CustomTreeItem) buddy_list_tree.getSelectionModel().getSelectedItem();
+        if (treeItem == null || !treeItem.isUser()) return;
+        String buddyName = treeItem.getBuddyDisplayName();
+        Message message = new Message();
+        message.setSender(username);
+        message.setBuddyListUpdate(true);
+        BuddyList buddyList = new BuddyList();
+        buddyList.setDeleteUser(true);
+        Buddy buddy = new Buddy(buddyName.toLowerCase(), buddyName, "Friends");
+        buddyList.addBuddy(buddy);
+        message.setBuddyList(buddyList);
+        message.setNullMessage(true);
+        sessionManager.addOutgoingMessage(message);
+    }
 }

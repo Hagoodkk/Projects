@@ -8,6 +8,24 @@ public class BuddyList implements Serializable {
     private ArrayList<Buddy> currentlyOnline;
     private ArrayList<Buddy> currentlyOffline;
 
+    private boolean addUser, deleteUser;
+
+    public boolean isAddUser() {
+        return addUser;
+    }
+
+    public void setAddUser(boolean addUser) {
+        this.addUser = addUser;
+    }
+
+    public boolean isDeleteUser() {
+        return deleteUser;
+    }
+
+    public void setDeleteUser(boolean deleteUser) {
+        this.deleteUser = deleteUser;
+    }
+
     public BuddyList() {
         this.buddies = new ArrayList<>();
         this.currentlyOffline = new ArrayList<>();

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="JChattrServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JChattrServer_jar</output-path>
+    <root id="archive" name="JChattrServer.jar">
+      <element id="module-output" name="JChattrServer" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/h2database/h2/1.4.196/h2-1.4.196.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

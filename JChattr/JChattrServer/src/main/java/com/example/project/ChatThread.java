@@ -4,6 +4,7 @@ import com.example.project.DatabaseManager.DatabaseManager;
 import com.example.project.Serializable.*;
 import com.example.project.SessionManager.SessionManager;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -180,8 +181,40 @@ public class ChatThread implements Runnable {
                 Message clientOutbound = sessionManager.getNextOutgoing(username);
                 if (!clientOutbound.isNullMessage()) System.out.println("Outbound: " + clientOutbound.getMessage());
                 if (clientInbound.isBuddyListUpdate()) {
-                    clientOutbound.setBuddyList(buildBuddyList(username));
-                    clientOutbound.setBuddyListUpdate(true);
+                    String user = clientInbound.getSender();
+                    String buddyUsername = clientInbound.getBuddyList().getBuddies().get(0).getUsername().toLowerCase();
+                    String groupName = clientInbound.getBuddyList().getBuddies().get(0).getGroupName();
+                    DatabaseManager databaseManager = DatabaseManager.getInstance();
+                    if (clientInbound.getBuddyList().isAddUser()) {
+                        boolean buddyAdded = databaseManager.addBuddyToUser(user, buddyUsername, groupName);
+                        if (buddyAdded) {
+                            String buddyDisplayName = databaseManager.getUserDisplayName(buddyUsername);
+
+                            BuddyList buddyList = new BuddyList();
+                            buddyList.setAddUser(true);
+                            Buddy buddy = new Buddy(buddyUsername, buddyDisplayName, groupName);
+                            buddyList.addBuddy(buddy);
+                            if (sessionManager.isOnline(buddyUsername)) {
+                                buddyList.getCurrentlyOnline().add(buddy);
+                            } else {
+                                buddyList.getCurrentlyOffline().add(buddy);
+                            }
+                            clientOutbound.setBuddyList(buddyList);
+                            clientOutbound.setBuddyListUpdate(true);
+                        } else System.out.println("Buddy addition failed.");
+
+                    } else if (clientInbound.getBuddyList().isDeleteUser()) {
+                        boolean buddyDeleted = databaseManager.removeBuddyFromUser(user, buddyUsername);
+                        if (buddyDeleted) {
+                            String buddyDisplayName = databaseManager.getUserDisplayName(buddyUsername);
+                            BuddyList buddyList = new BuddyList();
+                            buddyList.setDeleteUser(true);
+                            Buddy buddy = new Buddy(buddyUsername, buddyDisplayName, groupName);
+                            buddyList.addBuddy(buddy);
+                            clientOutbound.setBuddyList(buddyList);
+                            clientOutbound.setBuddyListUpdate(true);
+                        } else System.out.println("Buddy deletion failed.");
+                    }
                 }
                 toClient.writeObject(clientOutbound);
                 toClient.flush();
@@ -206,12 +239,8 @@ public class ChatThread implements Runnable {
     }
 
     private BuddyList buildBuddyList(String username) {
-        ArrayList<Buddy> buddies = new ArrayList<>();
-        buddies.add(new Buddy("carl", "Carl", "Friends"));
-        buddies.add(new Buddy("joan", "Joan", "Friends"));
-        buddies.add(new Buddy("bob", "Bob", "Friends"));
-        BuddyList buddyList = new BuddyList();
-        buddyList.setBuddies(buddies);
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        BuddyList buddyList = databaseManager.getBuddyList(username);
 
         ArrayList<Buddy> currentlyOffline = new ArrayList<>();
         ArrayList<Buddy> currentlyOnline = new ArrayList<>();
