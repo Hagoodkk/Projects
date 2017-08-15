@@ -2,6 +2,7 @@ package com.example.project.SessionManager;
 
 import com.example.project.BuddyListScreen.BuddyListScreenController;
 import com.example.project.ChatWindow.ChatWindowController;
+import com.example.project.ChatroomScreen.ChatroomScreenController;
 import com.example.project.Serializable.BuddyList;
 import com.example.project.Serializable.Message;
 import com.example.project.WelcomeScreen.WelcomeScreenController;
@@ -23,6 +24,21 @@ public class SessionManager {
     private WelcomeScreenController welcomeScreenController;
     private BuddyListScreenController buddyListScreenController;
     private HashMap<String, ChatWindowController> chatWindowControllers;
+    private HashMap<String, ChatroomScreenController> chatroomControllers;
+
+    public void addChatroomController(String chatroomName, ChatroomScreenController chatroomScreenController) {
+        if (chatroomControllers.get(chatroomName) != null) {
+            chatroomControllers.put(chatroomName, chatroomScreenController);
+        }
+    }
+
+    public ChatroomScreenController getChatroomController(String chatroomName) {
+        return this.chatroomControllers.get(chatroomName);
+    }
+
+    public void removeChatroomScreenController(String chatroomName) {
+        chatroomControllers.remove(chatroomName);
+    }
 
     public String getDisplayName() {
         return displayName;
@@ -43,11 +59,15 @@ public class SessionManager {
         outgoingQueue = new LinkedList<>();
         buddyListScreenController = null;
         chatWindowControllers = new HashMap<>();
+        chatroomControllers = new HashMap<>();
     }
 
     public void closeAllChatWindows() {
         for (ChatWindowController chatWindowController : chatWindowControllers.values()) {
             chatWindowController.shutdown();
+        }
+        for (ChatroomScreenController chatroomScreenController : chatroomControllers.values()) {
+            chatroomScreenController.shutdown();
         }
     }
 
@@ -115,6 +135,7 @@ public class SessionManager {
             sessionManager = new SessionManager();
             sessionManager.outgoingQueue = new LinkedList<>();
             sessionManager.chatWindowControllers = new HashMap<>();
+            sessionManager.chatroomControllers = new HashMap<>();
         }
         return sessionManager;
     }

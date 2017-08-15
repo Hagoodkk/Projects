@@ -2,6 +2,7 @@ package com.example.project.BuddyListScreen;
 
 import com.example.project.ChatWindow.ChatWindow;
 import com.example.project.ChatWindow.ChatWindowController;
+import com.example.project.ChatroomScreen.ChatroomScreen;
 import com.example.project.Serializable.Buddy;
 import com.example.project.Serializable.BuddyList;
 import com.example.project.Serializable.Message;
@@ -19,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 
 import javax.swing.*;
@@ -298,5 +300,11 @@ public class BuddyListScreenController {
         message.setBuddyList(buddyList);
         message.setNullMessage(true);
         sessionManager.addOutgoingMessage(message);
+    }
+
+    public void handleChatRoomTestButtonAction(MouseEvent mouseEvent) {
+        ChatroomScreen chatroomScreen = new ChatroomScreen();
+        chatroomScreen.initData("Test Room", "Test Admin");
+        chatroomScreen.start(new Stage());
     }
 }
