@@ -14,6 +14,8 @@
       - [x] **Database Management** - user information is indexed via unique primary keys, and these keys are linked to other tables as foreign keys to ensure data integrity.
 
      - [x] **Maven Dependency Management** - server-side of the program uses maven to integrate JUnit and the H2 Embedded Server, so the relied-upon API's are always up to date without hassle for the software developer.
+     
+     ---------------------------------
 
 2. **Hungr** - mobile development android app which recommends restaurants to its users. Uses geolocation services along with optional zip code, restaurant filtering is available, and users can retrieve contact information right from the app. Using the Yelp API.
 3. **Cyber Security Password Management System** - system built on JavaFX and employs the H2 embedded database which allows users to securely store passwords.
