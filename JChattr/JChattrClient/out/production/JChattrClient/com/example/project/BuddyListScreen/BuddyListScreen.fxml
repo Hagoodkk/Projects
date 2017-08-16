@@ -35,7 +35,8 @@
       </HBox>
       <Button fx:id="add_buddy_button" layoutX="164.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#handleAddBuddyButtonAction" text="Add Buddy" />
       <Button fx:id="delete_buddy_button" layoutX="239.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBuddyButtonAction" text="Delete Buddy" />
-      <Button fx:id="chatroom_test_button" layoutX="161.0" layoutY="37.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" text="Test Chat Room Window" onMouseClicked="#handleChatRoomTestButtonAction"/>
+      <Button fx:id="chatroom_test_button" layoutX="164.0" layoutY="49.0" mnemonicParsing="false" onMouseClicked="#handleChatRoomTestButtonAction" prefHeight="25.0" prefWidth="162.0" text="Test Chat Room Window" />
+      <Button fx:id="test_chatroom_listings_button" layoutX="127.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleTestChatroomListingsButtonAction" prefHeight="25.0" prefWidth="199.0" text="Test Chat Room Listings Window" />
    </children>
    <stylesheets>
       <URL value="@ListViewStyleSheet.css" />

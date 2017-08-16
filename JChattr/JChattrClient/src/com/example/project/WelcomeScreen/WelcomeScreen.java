@@ -33,6 +33,8 @@ public class WelcomeScreen extends Application {
         welcomeScreenStage.setMinHeight(height);
         welcomeScreenStage.setMinWidth(width);
 
+        welcomeScreenStage.setOnCloseRequest(e -> welcomeScreenController.shutdown());
+
         welcomeScreenStage.setScene(new Scene(root, width, height));
 
         welcomeScreenStage.show();

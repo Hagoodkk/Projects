@@ -3,6 +3,7 @@ package com.example.project.SessionManager;
 import com.example.project.BuddyListScreen.BuddyListScreenController;
 import com.example.project.ChatWindow.ChatWindowController;
 import com.example.project.ChatroomScreen.ChatroomScreenController;
+import com.example.project.ChatroomWelcomeScreen.ChatroomWelcomeScreenController;
 import com.example.project.Serializable.BuddyList;
 import com.example.project.Serializable.Message;
 import com.example.project.WelcomeScreen.WelcomeScreenController;
@@ -25,6 +26,15 @@ public class SessionManager {
     private BuddyListScreenController buddyListScreenController;
     private HashMap<String, ChatWindowController> chatWindowControllers;
     private HashMap<String, ChatroomScreenController> chatroomControllers;
+    private ChatroomWelcomeScreenController chatroomWelcomeScreenController;
+
+    public ChatroomWelcomeScreenController getChatroomWelcomeScreenController() {
+        return chatroomWelcomeScreenController;
+    }
+
+    public void setChatroomWelcomeScreenController(ChatroomWelcomeScreenController chatroomWelcomeScreenController) {
+        this.chatroomWelcomeScreenController = chatroomWelcomeScreenController;
+    }
 
     public void addChatroomController(String chatroomName, ChatroomScreenController chatroomScreenController) {
         if (chatroomControllers.get(chatroomName) != null) {
@@ -58,6 +68,7 @@ public class SessionManager {
         buddyList = null;
         outgoingQueue = new LinkedList<>();
         buddyListScreenController = null;
+        chatroomWelcomeScreenController = null;
         chatWindowControllers = new HashMap<>();
         chatroomControllers = new HashMap<>();
     }

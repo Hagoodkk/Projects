@@ -79,4 +79,9 @@ public class CustomTreeItem extends TreeItem {
     public String getBuddyDisplayName() {
         return this.buddyDisplayName;
     }
+
+    public void nullifyTimer() {
+        timer.cancel();
+        timer.purge();
+    }
 }

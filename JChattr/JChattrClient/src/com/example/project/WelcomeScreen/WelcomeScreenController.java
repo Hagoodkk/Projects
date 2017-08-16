@@ -145,4 +145,7 @@ public class WelcomeScreenController {
         Stage currentStage = (Stage) root.getScene().getWindow();
         currentStage.hide();
     }
+    public void shutdown() {
+
+    }
 }

@@ -3,14 +3,17 @@ package com.example.project.BuddyListScreen;
 import com.example.project.ChatWindow.ChatWindow;
 import com.example.project.ChatWindow.ChatWindowController;
 import com.example.project.ChatroomScreen.ChatroomScreen;
+import com.example.project.ChatroomWelcomeScreen.ChatroomWelcomeScreen;
 import com.example.project.Serializable.Buddy;
 import com.example.project.Serializable.BuddyList;
 import com.example.project.Serializable.Message;
 import com.example.project.SessionManager.SessionManager;
 import com.example.project.WelcomeScreen.WelcomeScreenController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +40,8 @@ import java.util.TimerTask;
 
 public class BuddyListScreenController {
     @FXML
+    Parent root;
+    @FXML
     TreeView buddy_list_tree;
     @FXML
     ImageView buddylist_icon;
@@ -48,8 +53,6 @@ public class BuddyListScreenController {
     private SessionManager sessionManager = SessionManager.getInstance();
     private Socket clientSocket = sessionManager.getClientSocket();
     private String username = sessionManager.getUsername();
-    private String displayName = sessionManager.getDisplayName();
-    private int ithSecond;
 
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
@@ -62,7 +65,6 @@ public class BuddyListScreenController {
     public void initialize() {
         System.out.println("This is " + username + "'s debug screen.");
         BuddyList buddyList = sessionManager.getBuddyList();
-        System.out.println(buddyList.getCurrentlyOnline().size());
 
         buildBuddyList(sessionManager.getBuddyList());
 
@@ -83,83 +85,83 @@ public class BuddyListScreenController {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                Message serverOutbound;
-                if (sessionManager.getOutgoingQueue().isEmpty()) {
-                    serverOutbound = new Message(true);
-                } else {
-                    serverOutbound = sessionManager.getOutgoingQueue().remove();
-                }
+                    Message serverOutbound;
+                    if (sessionManager.getOutgoingQueue().isEmpty()) {
+                        serverOutbound = new Message(true);
+                    } else {
+                        serverOutbound = sessionManager.getOutgoingQueue().remove();
+                    }
 
-                try {
-                    toServer.writeObject(serverOutbound);
-                    toServer.flush();
-                    Message serverInbound = (Message) fromServer.readObject();
-                    if (serverInbound.isBuddyListUpdate()) {
-                        System.out.println("Buddy List update time");
-                        String buddyUsername = serverInbound.getBuddyList().getBuddies().get(0).getUsername();
-                        System.out.println(buddyUsername);
-                        String buddyDisplayName = serverInbound.getBuddyList().getBuddies().get(0).getDisplayName();
-                        String buddyGroupName = serverInbound.getBuddyList().getBuddies().get(0).getGroupName();
+                    try {
+                        toServer.writeObject(serverOutbound);
+                        toServer.flush();
+                        Message serverInbound = (Message) fromServer.readObject();
+                        if (serverInbound.isBuddyListUpdate()) {
+                            System.out.println("Buddy List update time");
+                            String buddyUsername = serverInbound.getBuddyList().getBuddies().get(0).getUsername();
+                            System.out.println(buddyUsername);
+                            String buddyDisplayName = serverInbound.getBuddyList().getBuddies().get(0).getDisplayName();
+                            String buddyGroupName = serverInbound.getBuddyList().getBuddies().get(0).getGroupName();
 
-                        if (serverInbound.getBuddyList().isAddUser()) {
-                            if (groups.get(buddyGroupName) == null) {
-                                CustomTreeItem groupItem = new CustomTreeItem(new HBox(), buddyGroupName, true, false);
-                                groups.get("root").getChildren().add(0, groupItem);
-                                groups.put(buddyGroupName, groupItem);
+                            if (serverInbound.getBuddyList().isAddUser()) {
+                                if (groups.get(buddyGroupName) == null) {
+                                    CustomTreeItem groupItem = new CustomTreeItem(new HBox(), buddyGroupName, true, false);
+                                    groups.get("root").getChildren().add(0, groupItem);
+                                    groups.put(buddyGroupName, groupItem);
+                                }
+
+                                CustomTreeItem treeItem = new CustomTreeItem(new HBox(), buddyDisplayName, null);
+
+                                if (serverInbound.getBuddyList().getCurrentlyOnline().size() == 0) {
+                                    offlineUsers.put(buddyUsername, treeItem);
+                                    groups.get("offline").getChildren().add(treeItem);
+                                } else {
+                                    onlineUsers.put(buddyUsername, treeItem);
+                                    groups.get(buddyGroupName).getChildren().add(treeItem);
+                                }
+                                sessionManager.getBuddyList().addBuddy(new Buddy(buddyUsername, buddyDisplayName, buddyGroupName));
+                            } else if (serverInbound.getBuddyList().isDeleteUser()) {
+                                CustomTreeItem treeItem;
+                                if ((treeItem = offlineUsers.get(buddyUsername)) != null) {
+                                    offlineUsers.remove(buddyUsername);
+                                    groups.get("offline").getChildren().remove(treeItem);
+                                } else if ((treeItem = onlineUsers.get(buddyUsername)) != null) {
+                                    onlineUsers.remove(treeItem);
+                                    groups.get(buddyGroupName).getChildren().remove(treeItem);
+                                }
                             }
+                        }
 
-                            CustomTreeItem treeItem = new CustomTreeItem(new HBox(), buddyDisplayName, null);
-
-                            if (serverInbound.getBuddyList().getCurrentlyOnline().size() == 0) {
-                                offlineUsers.put(buddyUsername, treeItem);
-                                groups.get("offline").getChildren().add(treeItem);
+                        if (serverInbound.isLogOnEvent()) {
+                            updateBuddyList(serverInbound.getLogOn(), 0);
+                        }
+                        if (serverInbound.isLogOutEvent()) {
+                            updateBuddyList(serverInbound.getLogOut(), 1);
+                        }
+                        if (!serverInbound.isNullMessage()) {
+                            System.out.println(serverInbound.getMessage());
+                            ChatWindowController controller =
+                                    sessionManager.getChatWindowController(username, serverInbound.getSender());
+                            if (controller != null) {
+                                controller.appendText(serverInbound.getSender(), serverInbound.getMessage());
                             } else {
-                                onlineUsers.put(buddyUsername, treeItem);
-                                groups.get(buddyGroupName).getChildren().add(treeItem);
-                            }
-                            sessionManager.getBuddyList().addBuddy(new Buddy(buddyUsername, buddyDisplayName, buddyGroupName));
-                        } else if (serverInbound.getBuddyList().isDeleteUser()) {
-                            CustomTreeItem treeItem;
-                            if ((treeItem = offlineUsers.get(buddyUsername)) != null) {
-                                offlineUsers.remove(buddyUsername);
-                                groups.get("offline").getChildren().remove(treeItem);
-                            } else if ((treeItem = onlineUsers.get(buddyUsername)) != null) {
-                                onlineUsers.remove(treeItem);
-                                groups.get(buddyGroupName).getChildren().remove(treeItem);
+                                ChatWindow chatWindow = new ChatWindow();
+                                chatWindow.initData(username, serverInbound.getSenderDisplayName());
+                                try {
+                                    chatWindow.start();
+                                    ChatWindowController controller2 =
+                                            sessionManager.getChatWindowController(username, serverInbound.getSender());
+                                    controller2.appendText(serverInbound.getSender(), serverInbound.getMessage());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    } catch (ClassNotFoundException cnfe) {
+                        cnfe.printStackTrace();
                     }
-
-                    if (serverInbound.isLogOnEvent()) {
-                        updateBuddyList(serverInbound.getLogOn(), 0);
-                    }
-                    if (serverInbound.isLogOutEvent()) {
-                        updateBuddyList(serverInbound.getLogOut(), 1);
-                    }
-                    if (!serverInbound.isNullMessage()) {
-                        System.out.println(serverInbound.getMessage());
-                        ChatWindowController controller =
-                                sessionManager.getChatWindowController(username, serverInbound.getSender());
-                        if (controller != null) {
-                            controller.appendText(serverInbound.getSender(), serverInbound.getMessage());
-                        } else {
-                            ChatWindow chatWindow = new ChatWindow();
-                            chatWindow.initData(username, serverInbound.getSenderDisplayName());
-                            try {
-                                chatWindow.start();
-                                ChatWindowController controller2 =
-                                        sessionManager.getChatWindowController(username, serverInbound.getSender());
-                                controller2.appendText(serverInbound.getSender(), serverInbound.getMessage());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                } catch (ClassNotFoundException cnfe) {
-                    cnfe.printStackTrace();
-                }
             });
             }
         }, 0, timerInterval);
@@ -257,11 +259,28 @@ public class BuddyListScreenController {
     }
 
     public void shutdown() {
-
         timer.cancel();
-        WelcomeScreenController welcomeScreenController = sessionManager.getWelcomeScreenController();
-        sessionManager.closeAllChatWindows();
-        welcomeScreenController.showStage();
+        timer.purge();
+        /*
+            This block of for loops MUST be kept in the program.
+            The CustomTreeItem class uses Timers. Whenever timers
+            are instantiated, it creates a thread whether or not
+            any action has ever been scheduled on them. So if they
+            are not nullified, the threads will never be cancelled
+            which will create major memory leaks and will not allow
+            the halting of the program.
+         */
+        for (CustomTreeItem treeItem : groups.values()) {
+            treeItem.nullifyTimer();
+        }
+        for (CustomTreeItem treeItem : offlineUsers.values()) {
+            treeItem.nullifyTimer();
+        }
+        for (CustomTreeItem treeItem : onlineUsers.values()) {
+            treeItem.nullifyTimer();
+        }
+        SessionManager.getInstance().closeAllChatWindows();
+        SessionManager.getInstance().getWelcomeScreenController().showStage();
         sessionManager.nullify();
     }
 
@@ -279,6 +298,7 @@ public class BuddyListScreenController {
         message.setBuddyListUpdate(true);
         BuddyList buddyList = new BuddyList();
         buddyList.setAddUser(true);
+        if (buddyNameInput == null) return;
         Buddy buddy = new Buddy(buddyNameInput.toLowerCase(), buddyNameInput, "Friends");
         buddyList.addBuddy(buddy);
         message.setBuddyList(buddyList);
@@ -306,5 +326,11 @@ public class BuddyListScreenController {
         ChatroomScreen chatroomScreen = new ChatroomScreen();
         chatroomScreen.initData("Test Room", "Test Admin");
         chatroomScreen.start(new Stage());
+    }
+
+    public void handleTestChatroomListingsButtonAction(ActionEvent actionEvent) {
+        if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) return;
+        ChatroomWelcomeScreen chatroomWelcomeScreen = new ChatroomWelcomeScreen();
+        chatroomWelcomeScreen.start(new Stage());
     }
 }
