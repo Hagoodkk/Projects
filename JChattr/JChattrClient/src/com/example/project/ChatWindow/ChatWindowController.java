@@ -25,9 +25,13 @@ import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ChatWindowController {
     @FXML
@@ -83,10 +87,13 @@ public class ChatWindowController {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(0, 15, 0, 0));
 
-        String currentTime = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.MINUTES).toString();
-        int currentHour = Integer.parseInt(currentTime.substring(0, currentTime.indexOf(":")));
-        currentHour = currentHour % 12;
-        currentTime = String.valueOf(currentHour) + currentTime.substring(currentTime.indexOf(":"), currentTime.length());
+        Calendar today = Calendar.getInstance();
+        String currentTime = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " "
+                + today.get(Calendar.DAY_OF_MONTH) + ", "
+                + today.get(Calendar.YEAR) + " at "
+                + today.get(Calendar.HOUR) + ":"
+                + today.get(Calendar.MINUTE) + " "
+                + today.getDisplayName(Calendar.AM_PM, Calendar.LONG, Locale.getDefault());
 
         Label timeLabel = new Label();
         timeLabel.setText(currentTime);
@@ -140,10 +147,13 @@ public class ChatWindowController {
     public void appendText(String sender, String message) {
         if (username.equals(sender)) return;
 
-        String currentTime = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.MINUTES).toString();
-        int currentHour = Integer.parseInt(currentTime.substring(0, currentTime.indexOf(":")));
-        currentHour = currentHour % 12;
-        currentTime = String.valueOf(currentHour) + currentTime.substring(currentTime.indexOf(":"), currentTime.length());
+        Calendar today = Calendar.getInstance();
+        String currentTime = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " "
+                + today.get(Calendar.DAY_OF_MONTH) + ", "
+                + today.get(Calendar.YEAR) + " at "
+                + today.get(Calendar.HOUR) + ":"
+                + today.get(Calendar.MINUTE) + " "
+                + today.getDisplayName(Calendar.AM_PM, Calendar.LONG, Locale.getDefault());
 
         Label timeLabel = new Label();
         timeLabel.setText(currentTime);
