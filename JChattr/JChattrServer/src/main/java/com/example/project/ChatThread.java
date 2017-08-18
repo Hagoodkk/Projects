@@ -277,6 +277,7 @@ public class ChatThread implements Runnable {
             cnfe.printStackTrace();
         } finally {
             try {
+                SessionManager.getInstance().removeUserFromAllChatrooms(username);
                 sessionManager.broadcastStateUpdate(username, 1);
                 System.out.println(username + " disconnected.");
                 clientSocket.close();

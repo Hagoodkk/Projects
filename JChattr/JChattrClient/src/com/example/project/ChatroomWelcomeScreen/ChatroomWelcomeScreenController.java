@@ -67,6 +67,7 @@ public class ChatroomWelcomeScreenController {
             chatrooms_listview.setItems(chatroomList);
             String currentlySelected = categories_listview.getSelectionModel().getSelectedItem().toString();
             chatroomList.addAll(categories.get(currentlySelected));
+            this.currentCategory = categoryList.get(0);
         } else {
             String categoryClicked = categories_listview.getSelectionModel().getSelectedItem().toString();
             if (categoryClicked == null) return;

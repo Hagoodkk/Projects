@@ -1,5 +1,6 @@
 package com.example.project.SessionManager;
 
+import com.example.project.DatabaseManager.DatabaseManager;
 import com.example.project.Serializable.Message;
 import javafx.util.Pair;
 
@@ -31,6 +32,24 @@ public class SessionManager {
             initializeChatrooms();
         }
         return sessionManager;
+    }
+
+    public static void removeUserFromAllChatrooms(String username) {
+        String displayName = DatabaseManager.getInstance().getUserDisplayName(username);
+        for (String chatroomName : chatroomUsers.keySet()) {
+            if (chatroomUsers.get(chatroomName).contains(displayName)) {
+                chatroomUsers.get(chatroomName).remove(displayName);
+                if (chatroomUsers.get(chatroomName).size() == 0) {
+                    for (String category : chatroomCategories.keySet()) {
+                        if (chatroomCategories.get(category).contains(chatroomName)) {
+                            chatroomCategories.get(category).remove(chatroomName);
+                            chatroomUsers.remove(chatroomName);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static void initializeChatrooms() {
