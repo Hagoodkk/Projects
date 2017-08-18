@@ -25,7 +25,7 @@ public class SessionManager {
     private WelcomeScreenController welcomeScreenController;
     private BuddyListScreenController buddyListScreenController;
     private HashMap<String, ChatWindowController> chatWindowControllers;
-    private HashMap<String, ChatroomScreenController> chatroomControllers;
+    private ChatroomScreenController chatroomScreenController;
     private ChatroomWelcomeScreenController chatroomWelcomeScreenController;
 
     public ChatroomWelcomeScreenController getChatroomWelcomeScreenController() {
@@ -36,18 +36,18 @@ public class SessionManager {
         this.chatroomWelcomeScreenController = chatroomWelcomeScreenController;
     }
 
-    public void addChatroomController(String chatroomName, ChatroomScreenController chatroomScreenController) {
-        if (chatroomControllers.get(chatroomName) != null) {
-            chatroomControllers.put(chatroomName, chatroomScreenController);
+    public void setChatroomScreenController(ChatroomScreenController chatroomScreenController) {
+        this.chatroomScreenController = chatroomScreenController;
+    }
+
+    public ChatroomScreenController getChatroomController() {
+        return this.chatroomScreenController;
+    }
+
+    public void removeChatroomScreenController() {
+        if (this.chatroomScreenController != null) {
+            this.chatroomScreenController = null;
         }
-    }
-
-    public ChatroomScreenController getChatroomController(String chatroomName) {
-        return this.chatroomControllers.get(chatroomName);
-    }
-
-    public void removeChatroomScreenController(String chatroomName) {
-        chatroomControllers.remove(chatroomName);
     }
 
     public String getDisplayName() {
@@ -70,15 +70,16 @@ public class SessionManager {
         buddyListScreenController = null;
         chatroomWelcomeScreenController = null;
         chatWindowControllers = new HashMap<>();
-        chatroomControllers = new HashMap<>();
+        chatroomScreenController = null;
     }
 
     public void closeAllChatWindows() {
         for (ChatWindowController chatWindowController : chatWindowControllers.values()) {
             chatWindowController.shutdown();
         }
-        for (ChatroomScreenController chatroomScreenController : chatroomControllers.values()) {
-            chatroomScreenController.shutdown();
+        removeChatroomScreenController();
+        if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) {
+            SessionManager.getInstance().getChatroomWelcomeScreenController().shutdown();
         }
     }
 
@@ -146,7 +147,6 @@ public class SessionManager {
             sessionManager = new SessionManager();
             sessionManager.outgoingQueue = new LinkedList<>();
             sessionManager.chatWindowControllers = new HashMap<>();
-            sessionManager.chatroomControllers = new HashMap<>();
         }
         return sessionManager;
     }

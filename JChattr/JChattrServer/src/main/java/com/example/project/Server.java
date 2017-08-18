@@ -10,7 +10,7 @@ public class Server {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         databaseManager.createTables();
 
-        int portNumber = 10007;
+        int portNumber = 80;
         ServerSocket serverSocket = startServer(portNumber);
 
         if (serverSocket == null) System.exit(1);

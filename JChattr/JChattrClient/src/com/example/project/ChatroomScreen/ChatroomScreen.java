@@ -9,9 +9,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ChatroomScreen extends Application {
+    private String chatroomCategory;
     private String chatroomName;
+    private ArrayList<String> chatroomUsers;
     private String chatroomAdmin;
 
     public static void main(String[] args) {
@@ -24,10 +27,12 @@ public class ChatroomScreen extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatroomScreen.fxml"));
             Parent root = loader.load();
             ChatroomScreenController chatroomScreenController = loader.getController();
-            SessionManager.getInstance().addChatroomController(chatroomName, chatroomScreenController);
-            chatroomScreenController.initData(chatroomName, chatroomAdmin);
+            chatroomScreenController.initData(chatroomCategory, chatroomName, chatroomUsers, chatroomAdmin);
+            chatroomScreenController.initializeList();
+            SessionManager.getInstance().setChatroomScreenController(chatroomScreenController);
             chatroomWindowStage.setTitle(chatroomName);
             chatroomWindowStage.getIcons().add(new Image("images/appIcon.gif"));
+            chatroomWindowStage.setOnCloseRequest(e -> chatroomScreenController.shutdown());
 
             chatroomWindowStage.setScene(new Scene(root));
             chatroomWindowStage.show();
@@ -36,8 +41,10 @@ public class ChatroomScreen extends Application {
         }
     }
 
-    public void initData(String chatroomName, String chatroomAdmin) {
+    public void initData(String chatroomCategory, String chatroomName, ArrayList<String> chatroomUsers, String chatroomAdmin) {
+        this.chatroomCategory = chatroomCategory;
         this.chatroomName = chatroomName;
+        this.chatroomUsers = chatroomUsers;
         this.chatroomAdmin = chatroomAdmin;
     }
 }

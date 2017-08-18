@@ -1,12 +1,83 @@
 package com.example.project.Serializable;
 
+import javafx.util.Pair;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Message implements Serializable{
     private String sender, recipient, message, salt, passwordSaltedHash, logOn, logOut;
-    private boolean error, nullMessage, buddyListUpdate, loginRequest, saltRequest, logOnEvent, logOutEvent;
+    private boolean error, nullMessage, buddyListUpdate, loginRequest, saltRequest, logOnEvent, logOutEvent, chatroomListingsRequest, chatroomCreateRequest, leftChatroom, enteredChatroom;
     private BuddyList buddyList;
     private String senderDisplayName;
+    private HashMap<String, ArrayList<String>> categories, users;
+    private Pair<String, String> chatroomCategoryAndName;
+    private ArrayList<String> chatroomUsers;
+
+    public ArrayList<String> getChatroomUsers() {
+        return chatroomUsers;
+    }
+
+    public void setChatroomUsers(ArrayList<String> chatroomUsers) {
+        this.chatroomUsers = chatroomUsers;
+    }
+
+    public boolean isLeftChatroom() {
+        return leftChatroom;
+    }
+
+    public void setLeftChatroom(boolean leftChatroom) {
+        this.leftChatroom = leftChatroom;
+    }
+
+    public boolean isEnteredChatroom() {
+        return enteredChatroom;
+    }
+
+    public void setEnteredChatroom(boolean enteredChatroom) {
+        this.enteredChatroom = enteredChatroom;
+    }
+
+    public Pair<String, String> getChatroomCategoryAndName() {
+        return chatroomCategoryAndName;
+    }
+
+    public void setChatroomCategoryAndName(Pair<String, String> chatroomCategoryAndName) {
+        this.chatroomCategoryAndName = chatroomCategoryAndName;
+    }
+
+    public boolean isChatroomCreateRequest() {
+        return chatroomCreateRequest;
+    }
+
+    public void setChatroomCreateRequest(boolean chatroomCreateRequest) {
+        this.chatroomCreateRequest = chatroomCreateRequest;
+    }
+
+    public HashMap<String, ArrayList<String>> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(HashMap<String, ArrayList<String>> categories) {
+        this.categories = categories;
+    }
+
+    public HashMap<String, ArrayList<String>> getUsers() {
+        return users;
+    }
+
+    public void setUsers(HashMap<String, ArrayList<String>> users) {
+        this.users = users;
+    }
+
+    public boolean isChatroomListingsRequest() {
+        return chatroomListingsRequest;
+    }
+
+    public void setChatroomListingsRequest(boolean chatroomListingsRequest) {
+        this.chatroomListingsRequest = chatroomListingsRequest;
+    }
 
     public String getSenderDisplayName() {
         return senderDisplayName;

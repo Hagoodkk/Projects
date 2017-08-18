@@ -1,8 +1,10 @@
 package com.example.project.SessionManager;
 
 import com.example.project.Serializable.Message;
+import javafx.util.Pair;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,6 +19,8 @@ public class SessionManager {
     private static HashMap<String, Socket> clients;
     private static HashMap<String, Queue<Message>> outgoingQueue;
 
+    private static HashMap<String, ArrayList<String>> chatroomCategories, chatroomUsers;
+
     private SessionManager() {}
 
     public static SessionManager getInstance() {
@@ -24,8 +28,48 @@ public class SessionManager {
             sessionManager = new SessionManager();
             clients = new HashMap<>();
             outgoingQueue = new HashMap<>();
+            initializeChatrooms();
         }
         return sessionManager;
+    }
+
+    private static void initializeChatrooms() {
+        chatroomCategories = new HashMap<>();
+        chatroomUsers = new HashMap<>();
+
+        chatroomCategories.put("General", new ArrayList<>());
+        chatroomCategories.put("Other", new ArrayList<>());
+    }
+
+    public static void addChatroom(String displayName, Pair<String,String> chatroomCategoryAndName) {
+        chatroomCategories.get(chatroomCategoryAndName.getKey()).add(chatroomCategoryAndName.getValue());
+        chatroomUsers.put(chatroomCategoryAndName.getValue(), new ArrayList<>());
+        chatroomUsers.get(chatroomCategoryAndName.getValue()).add(displayName);
+    }
+
+    public static void addChatroomUser(String displayName, String chatroomCategory, String chatroomName) {
+        if (chatroomCategories.get(chatroomCategory).contains(chatroomName) && chatroomUsers.get(chatroomName) != null) {
+            chatroomUsers.get(chatroomName).add(displayName);
+        }
+    }
+
+    public static void removeChatroomUser(String displayName, Pair<String, String> chatroomCategoryAndName) {
+        String chatroomCategory = chatroomCategoryAndName.getKey();
+        String chatroomName = chatroomCategoryAndName.getValue();
+
+        chatroomUsers.get(chatroomName).remove(displayName);
+        if (chatroomUsers.get(chatroomName).size() == 0) {
+            chatroomCategories.get(chatroomCategory).remove(chatroomName);
+            chatroomUsers.remove(chatroomName);
+        }
+    }
+
+    public HashMap<String, ArrayList<String>> getChatroomCategories() {
+        return chatroomCategories;
+    }
+
+    public HashMap<String, ArrayList<String>> getChatroomUsers() {
+        return chatroomUsers;
     }
 
     public Message getNextOutgoing(String recipient) {

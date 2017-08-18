@@ -3,10 +3,7 @@ package com.example.project.DatabaseManager;
 import com.example.project.Serializable.Buddy;
 import com.example.project.Serializable.BuddyList;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseManager {
     private static DatabaseManager databaseManager;
@@ -39,7 +36,7 @@ public class DatabaseManager {
     public boolean createTables() {
         try {
             Statement statement = connection.createStatement();
-            String createUsersTable = "CREATE TABLE Users (\n" +
+            String createUsersTable = "CREATE TABLE IF NOT EXISTS Users (\n" +
                     "\tUserID Integer PRIMARY KEY AUTO_INCREMENT,\n" +
                     "    Username varchar(255) NOT NULL,\n" +
                     "    DisplayName varchar(255) NOT NULL,\n" +
@@ -47,7 +44,7 @@ public class DatabaseManager {
                     "    PasswordSalt varchar(255) NOT NULL\n" +
                     ");";
             statement.executeUpdate(createUsersTable);
-            String createBuddyListTable = "CREATE TABLE BuddyList (\n" +
+            String createBuddyListTable = "CREATE TABLE IF NOT EXISTS BuddyList (\n" +
                     "\tUserID Integer NOT NULL,\n" +
                     "    BuddyID Integer NOT NULL,\n" +
                     "    GroupName varchar(255) NOT NULL,\n" +

@@ -34,7 +34,7 @@ public class WelcomeScreenController {
     @FXML
     private ImageView welcome_image;
 
-    private final int PORT_NUMBER = 10007;
+    private final int PORT_NUMBER = 80;
     private final String HOST_NAME = "10.0.0.88";
 
     SessionManager sessionManager = SessionManager.getInstance();

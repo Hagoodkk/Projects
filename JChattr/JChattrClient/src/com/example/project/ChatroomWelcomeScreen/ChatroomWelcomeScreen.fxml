@@ -3,12 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane fx:id="root" prefHeight="461.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.ChatroomWelcomeScreen.ChatroomWelcomeScreenController">
+<AnchorPane fx:id="root" prefHeight="445.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.ChatroomWelcomeScreen.ChatroomWelcomeScreenController">
    <children>
-      <ListView fx:id="categories_listview" layoutX="45.0" layoutY="73.0" prefHeight="309.0" prefWidth="129.0" />
-      <ListView fx:id="chatrooms_listview" layoutX="174.0" layoutY="73.0" prefHeight="285.0" prefWidth="455.0" />
-      <MenuBar prefHeight="27.0" prefWidth="674.0">
+      <ListView fx:id="categories_listview" layoutX="45.0" layoutY="73.0" onMouseClicked="#handleCategoryClickedAction" prefHeight="309.0" prefWidth="129.0" />
+      <ListView fx:id="chatrooms_listview" layoutX="174.0" layoutY="73.0" prefHeight="285.0" prefWidth="455.0" onMouseClicked="#handleChatroomsClickedAction"/>
+      <MenuBar prefHeight="27.0" prefWidth="796.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -29,8 +28,9 @@
       </MenuBar>
       <Label alignment="CENTER" layoutX="45.0" layoutY="46.0" prefHeight="27.0" prefWidth="129.0" text="Categories" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="174.0" layoutY="46.0" prefHeight="27.0" prefWidth="455.0" text="Chat Rooms" textAlignment="CENTER" />
-      <Button fx:id="enter_chatroom_button" layoutX="175.0" layoutY="358.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="224.0" text="Enter Chatroom" onMouseClicked="#handleEnterChatroomButtonAction"/>
-      <Button fx:id="whos_chatting_button" layoutX="399.0" layoutY="358.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" text="Who's Chatting" onMouseClicked="#handleWhosChattingButtonAction"/>
-      <Button fx:id="create_chatroom_button" layoutX="46.0" layoutY="397.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="582.0" text="Create Chatroom" onMouseClicked="#handleCreateChatroomButtonAction"/>
+      <Button fx:id="enter_chatroom_button" layoutX="175.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#handleEnterChatroomButtonAction" prefHeight="25.0" prefWidth="455.0" text="Enter Chatroom" />
+      <Button fx:id="create_chatroom_button" layoutX="44.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#handleCreateChatroomButtonAction" prefHeight="35.0" prefWidth="715.0" text="Create Chatroom" />
+      <ListView layoutX="630.0" layoutY="73.0" prefHeight="309.0" prefWidth="129.0" fx:id="whos_chatting_list_view" onMouseClicked="#handleWhosChattingClickedAction"/>
+      <Label alignment="CENTER" layoutX="629.0" layoutY="46.0" prefHeight="27.0" prefWidth="129.0" text="Who's Chatting" />
    </children>
 </AnchorPane>

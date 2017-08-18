@@ -3,12 +3,15 @@ package com.example.project;
 import com.example.project.DatabaseManager.DatabaseManager;
 import com.example.project.Serializable.*;
 import com.example.project.SessionManager.SessionManager;
+import javafx.util.Pair;
+import sun.net.ConnectionResetException;
 
 import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Kyle on 7/4/2017.
@@ -216,15 +219,61 @@ public class ChatThread implements Runnable {
                         } else System.out.println("Buddy deletion failed.");
                     }
                 }
+
+                if (clientInbound.isChatroomListingsRequest()) {
+                    clientOutbound.setChatroomListingsRequest(true);
+                    clientOutbound.setCategories(SessionManager.getInstance().getChatroomCategories());
+                    clientOutbound.setUsers(SessionManager.getInstance().getChatroomUsers());
+                    clientOutbound.setNullMessage(true);
+                }
+                if (clientInbound.isChatroomCreateRequest()) {
+                    Pair<String,String> chatroomInfo = clientInbound.getChatroomCategoryAndName();
+                    String displayName = clientInbound.getSenderDisplayName();
+                    SessionManager.getInstance().addChatroom(displayName, chatroomInfo);
+                }
+                if (clientInbound.isLeftChatroom()) {
+                    String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
+
+                    SessionManager.getInstance().removeChatroomUser(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
+                    ArrayList<String> usersInRoom = SessionManager.getInstance().getChatroomUsers().get(chatroomName);
+
+                    Message message = new Message(true);
+                    message.setLeftChatroom(true);
+                    message.setChatroomCategoryAndName(clientInbound.getChatroomCategoryAndName());
+                    message.setSenderDisplayName(clientInbound.getSenderDisplayName());
+                    if (usersInRoom != null) {
+                        for (String user : usersInRoom) {
+                            SessionManager.getInstance().addOutgoingMessage(user.toLowerCase(), message);
+                        }
+                    }
+                }
+                if (clientInbound.isEnteredChatroom()) {
+                    String chatroomCategory = clientInbound.getChatroomCategoryAndName().getKey();
+                    String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
+                    String displayName = clientInbound.getSenderDisplayName();
+
+                    SessionManager.getInstance().addChatroomUser(displayName, chatroomCategory, chatroomName);
+
+                    Message message = new Message(true);
+                    message.setEnteredChatroom(true);
+                    message.setSenderDisplayName(clientInbound.getSenderDisplayName());
+                    message.setChatroomCategoryAndName(clientInbound.getChatroomCategoryAndName());
+                    message.setChatroomUsers(SessionManager.getInstance().getChatroomUsers().get(chatroomName));
+
+                    for (String user : SessionManager.getInstance().getChatroomUsers().get(chatroomName)) {
+                        SessionManager.getInstance().addOutgoingMessage(user.toLowerCase(), message);
+                    }
+                }
                 toClient.writeObject(clientOutbound);
                 toClient.flush();
+                toClient.reset();
             }
-
-        } catch (SocketException se) {
-            se.printStackTrace();
-        } catch (IOException ioe) {
+        }
+        catch (ConnectionResetException cre) {}
+        catch (EOFException eofe) {}
+        catch (IOException ioe) {
             ioe.printStackTrace();
-        } catch (ClassNotFoundException cnfe) {
+        }  catch (ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         } finally {
             try {

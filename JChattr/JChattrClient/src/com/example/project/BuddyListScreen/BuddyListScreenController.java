@@ -14,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,10 +35,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.net.SocketException;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class BuddyListScreenController {
     @FXML
@@ -64,7 +65,6 @@ public class BuddyListScreenController {
     @FXML
     public void initialize() {
         System.out.println("This is " + username + "'s debug screen.");
-        BuddyList buddyList = sessionManager.getBuddyList();
 
         buildBuddyList(sessionManager.getBuddyList());
 
@@ -79,12 +79,12 @@ public class BuddyListScreenController {
             ioe.printStackTrace();
         }
 
-        int timerInterval = 50;
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
+            int timerInterval = 50;
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
                     Message serverOutbound;
                     if (sessionManager.getOutgoingQueue().isEmpty()) {
                         serverOutbound = new Message(true);
@@ -96,6 +96,7 @@ public class BuddyListScreenController {
                         toServer.writeObject(serverOutbound);
                         toServer.flush();
                         Message serverInbound = (Message) fromServer.readObject();
+
                         if (serverInbound.isBuddyListUpdate()) {
                             System.out.println("Buddy List update time");
                             String buddyUsername = serverInbound.getBuddyList().getBuddies().get(0).getUsername();
@@ -131,7 +132,35 @@ public class BuddyListScreenController {
                                 }
                             }
                         }
-
+                        if (serverInbound.isChatroomListingsRequest()) {
+                            if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) {
+                                SessionManager.getInstance().getChatroomWelcomeScreenController().fillCategories(
+                                        serverInbound.getCategories(),
+                                        serverInbound.getUsers()
+                                );
+                            }
+                        }
+                        if (serverInbound.isEnteredChatroom()) {
+                            String displayName = serverInbound.getSenderDisplayName();
+                            if (username.equalsIgnoreCase(displayName)) {
+                                if (SessionManager.getInstance().getChatroomController() != null) SessionManager.getInstance().getChatroomController().shutdown();
+                                    ChatroomScreen chatroomScreen = new ChatroomScreen();
+                                    chatroomScreen.initData(
+                                            serverInbound.getChatroomCategoryAndName().getKey(),
+                                            serverInbound.getChatroomCategoryAndName().getValue(),
+                                            serverInbound.getChatroomUsers(),
+                                            "TestAdmin"
+                                    );
+                                    chatroomScreen.start(new Stage());
+                            } else {
+                                SessionManager.getInstance().getChatroomController().addUser(displayName);
+                            }
+                        }
+                        if (serverInbound.isLeftChatroom()) {
+                            if (SessionManager.getInstance().getChatroomController() != null) {
+                                SessionManager.getInstance().getChatroomController().removeUser(serverInbound.getSenderDisplayName());
+                            }
+                        }
                         if (serverInbound.isLogOnEvent()) {
                             updateBuddyList(serverInbound.getLogOn(), 0);
                         }
@@ -157,14 +186,19 @@ public class BuddyListScreenController {
                                 }
                             }
                         }
-                    } catch (IOException ioe) {
+                    }
+                    catch (SocketException se) {
+                        se.printStackTrace();
+                    }
+                    catch (IOException ioe) {
                         ioe.printStackTrace();
                     } catch (ClassNotFoundException cnfe) {
                         cnfe.printStackTrace();
                     }
-            });
-            }
-        }, 0, timerInterval);
+                });
+                }
+            }, 0, timerInterval);
+
     }
 
     private void buildBuddyList(BuddyList buddyList) {
@@ -285,20 +319,19 @@ public class BuddyListScreenController {
     }
 
     public void handleAddBuddyButtonAction() {
-        String buddyNameInput = (String) JOptionPane.showInputDialog(
-                new Frame(),
-                "Enter buddy name",
-                "Add Buddy",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                null);
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add Buddy");
+        dialog.setHeaderText("Enter the buddy name.");
+        Optional<String> result = dialog.showAndWait();
+        String buddyNameInput;
+        if (result.isPresent()) buddyNameInput = result.get();
+        else return;
+
         Message message = new Message();
         message.setSender(username);
         message.setBuddyListUpdate(true);
         BuddyList buddyList = new BuddyList();
         buddyList.setAddUser(true);
-        if (buddyNameInput == null) return;
         Buddy buddy = new Buddy(buddyNameInput.toLowerCase(), buddyNameInput, "Friends");
         buddyList.addBuddy(buddy);
         message.setBuddyList(buddyList);
@@ -324,7 +357,7 @@ public class BuddyListScreenController {
 
     public void handleChatRoomTestButtonAction(MouseEvent mouseEvent) {
         ChatroomScreen chatroomScreen = new ChatroomScreen();
-        chatroomScreen.initData("Test Room", "Test Admin");
+        chatroomScreen.initData("Test Category","Test Room", new ArrayList<>(),"Test Admin");
         chatroomScreen.start(new Stage());
     }
 
