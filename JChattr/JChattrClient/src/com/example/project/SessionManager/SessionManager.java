@@ -77,7 +77,6 @@ public class SessionManager {
         for (ChatWindowController chatWindowController : chatWindowControllers.values()) {
             chatWindowController.shutdown();
         }
-        removeChatroomScreenController();
         if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) {
             SessionManager.getInstance().getChatroomWelcomeScreenController().shutdown();
         }

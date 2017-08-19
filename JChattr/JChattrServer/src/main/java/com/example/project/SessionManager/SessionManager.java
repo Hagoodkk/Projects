@@ -36,17 +36,30 @@ public class SessionManager {
 
     public static void removeUserFromAllChatrooms(String username) {
         String displayName = DatabaseManager.getInstance().getUserDisplayName(username);
+        String categoryName = "";
         for (String chatroomName : chatroomUsers.keySet()) {
             if (chatroomUsers.get(chatroomName).contains(displayName)) {
                 chatroomUsers.get(chatroomName).remove(displayName);
                 if (chatroomUsers.get(chatroomName).size() == 0) {
                     for (String category : chatroomCategories.keySet()) {
                         if (chatroomCategories.get(category).contains(chatroomName)) {
+                            categoryName = category;
                             chatroomCategories.get(category).remove(chatroomName);
                             chatroomUsers.remove(chatroomName);
                             return;
                         }
                     }
+                } else {
+                    Message message = new Message(true);
+                    message.setLeftChatroom(true);
+                    message.setChatroomCategoryAndName(new Pair<>(categoryName, chatroomName));
+                    message.setSenderDisplayName(displayName);
+                    if (chatroomUsers.get(chatroomName) != null) {
+                        for (String user : chatroomUsers.get(chatroomName)) {
+                            SessionManager.getInstance().addOutgoingMessage(user.toLowerCase(), message);
+                        }
+                    }
+                    return;
                 }
             }
         }

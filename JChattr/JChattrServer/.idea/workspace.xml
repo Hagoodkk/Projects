@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatThread.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChatThread.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/project/ChatThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="265" column="17" lean-forward="true" selection-start-line="265" selection-start-column="17" selection-end-line="265" selection-end-column="17" />
+            <state relative-caret-position="226">
+              <caret line="232" column="118" lean-forward="true" selection-start-line="232" selection-start-column="118" selection-end-line="232" selection-end-column="118" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -80,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SessionManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SessionManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/project/SessionManager/SessionManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="46" column="35" lean-forward="false" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+            <state relative-caret-position="442">
+              <caret line="58" column="105" lean-forward="false" selection-start-line="58" selection-start-column="105" selection-end-line="58" selection-end-column="105" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -98,43 +98,43 @@
             <state relative-caret-position="68">
               <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
-                <marker date="1503017072266" expanded="true" signature="1229:1626" ph="CREATE TABLE... Users" />
-                <marker date="1503017072266" expanded="true" signature="1728:2225" ph="CREATE TABLE... BuddyList" />
-                <marker date="1503017072266" expanded="true" signature="2716:2774" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="2927:3049" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="2927:3069" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="2927:3092" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="2927:3117" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="2927:3122" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="2927:3144" ph="INSERT INTO Users... " />
-                <marker date="1503017072266" expanded="true" signature="3681:3717" ph="SELECT Displ... Users" />
-                <marker date="1503017072266" expanded="true" signature="3681:3727" ph="SELECT Displ... Users" />
-                <marker date="1503017072266" expanded="true" signature="3681:3744" ph="SELECT Displ... Users" />
-                <marker date="1503017072266" expanded="true" signature="3681:3745" ph="SELECT Displ... Users" />
-                <marker date="1503017072266" expanded="true" signature="4273:4368" ph="DELETE FROM " />
-                <marker date="1503017072266" expanded="true" signature="4309:4367" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="4487:4583" ph="DELETE FROM " />
-                <marker date="1503017072266" expanded="true" signature="4524:4582" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="4675:4726" ph="DELETE FROM " />
-                <marker date="1503017072266" expanded="true" signature="5216:5442" ph="SELECT UserI... BuddyList" />
-                <marker date="1503017072266" expanded="true" signature="5216:5443" ph="SELECT UserI... BuddyList" />
-                <marker date="1503017072266" expanded="true" signature="5284:5342" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="5382:5441" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="5581:5874" ph="INSERT INTO BuddyList... " />
-                <marker date="1503017072266" expanded="true" signature="5670:5728" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="5761:5820" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="5761:5874" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="6474:6693" ph="DELETE FROM " />
-                <marker date="1503017072266" expanded="true" signature="6535:6593" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="6633:6692" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="7088:7152" ph="SELECT Passw... Users" />
-                <marker date="1503017072266" expanded="true" signature="7698:7768" ph="SELECT Passw... Users" />
-                <marker date="1503017072266" expanded="true" signature="8454:8685" ph="SELECT Displ... Users" />
-                <marker date="1503017072266" expanded="true" signature="8626:8684" ph="SELECT UserI... Users" />
-                <marker date="1503017072266" expanded="true" signature="9267:9283" ph="DROP TABLE U... " />
-                <marker date="1503017072266" expanded="true" signature="9320:9340" ph="DROP TABLE B... " />
-                <marker date="1503017072266" expanded="true" signature="9671:9691" ph="SELECT * FRO... Users" />
-                <marker date="1503017072266" expanded="true" signature="10192:10216" ph="SELECT * FRO... BuddyList" />
+                <marker date="1503160027602" expanded="true" signature="1229:1626" ph="CREATE TABLE... Users" />
+                <marker date="1503160027602" expanded="true" signature="1728:2225" ph="CREATE TABLE... BuddyList" />
+                <marker date="1503160027602" expanded="true" signature="2716:2774" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="2927:3049" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="2927:3069" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="2927:3092" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="2927:3117" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="2927:3122" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="2927:3144" ph="INSERT INTO Users... " />
+                <marker date="1503160027602" expanded="true" signature="3681:3717" ph="SELECT Displ... Users" />
+                <marker date="1503160027602" expanded="true" signature="3681:3727" ph="SELECT Displ... Users" />
+                <marker date="1503160027602" expanded="true" signature="3681:3744" ph="SELECT Displ... Users" />
+                <marker date="1503160027602" expanded="true" signature="3681:3745" ph="SELECT Displ... Users" />
+                <marker date="1503160027602" expanded="true" signature="4273:4368" ph="DELETE FROM " />
+                <marker date="1503160027602" expanded="true" signature="4309:4367" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="4487:4583" ph="DELETE FROM " />
+                <marker date="1503160027602" expanded="true" signature="4524:4582" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="4675:4726" ph="DELETE FROM " />
+                <marker date="1503160027602" expanded="true" signature="5216:5442" ph="SELECT UserI... BuddyList" />
+                <marker date="1503160027602" expanded="true" signature="5216:5443" ph="SELECT UserI... BuddyList" />
+                <marker date="1503160027602" expanded="true" signature="5284:5342" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="5382:5441" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="5581:5874" ph="INSERT INTO BuddyList... " />
+                <marker date="1503160027602" expanded="true" signature="5670:5728" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="5761:5820" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="5761:5874" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="6474:6693" ph="DELETE FROM " />
+                <marker date="1503160027602" expanded="true" signature="6535:6593" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="6633:6692" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="7088:7152" ph="SELECT Passw... Users" />
+                <marker date="1503160027602" expanded="true" signature="7698:7768" ph="SELECT Passw... Users" />
+                <marker date="1503160027602" expanded="true" signature="8454:8685" ph="SELECT Displ... Users" />
+                <marker date="1503160027602" expanded="true" signature="8626:8684" ph="SELECT UserI... Users" />
+                <marker date="1503160027602" expanded="true" signature="9267:9283" ph="DROP TABLE U... " />
+                <marker date="1503160027602" expanded="true" signature="9320:9340" ph="DROP TABLE B... " />
+                <marker date="1503160027602" expanded="true" signature="9671:9691" ph="SELECT * FRO... Users" />
+                <marker date="1503160027602" expanded="true" signature="10192:10216" ph="SELECT * FRO... BuddyList" />
               </folding>
             </state>
           </provider>
@@ -249,9 +249,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/project/Serializable/BuddyList.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/project/Server.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/project/DatabaseManager/DatabaseManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/project/SessionManager/SessionManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/project/Serializable/Message.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/project/ChatThread.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/project/SessionManager/SessionManager.java" />
       </list>
     </option>
   </component>
@@ -995,7 +995,7 @@
       <workItem from="1502991852742" duration="11478000" />
       <workItem from="1503016599214" duration="2299000" />
       <workItem from="1503083005211" duration="7822000" />
-      <workItem from="1503153438324" duration="2942000" />
+      <workItem from="1503153438324" duration="3965000" />
     </task>
     <servers />
   </component>
@@ -1032,7 +1032,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189337000" />
+    <option name="totallyTimeSpent" value="190360000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2552" y="45" width="1936" height="1056" extended-state="6" />
@@ -1468,43 +1468,43 @@
         <state relative-caret-position="68">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <marker date="1503017072266" expanded="true" signature="1229:1626" ph="CREATE TABLE... Users" />
-            <marker date="1503017072266" expanded="true" signature="1728:2225" ph="CREATE TABLE... BuddyList" />
-            <marker date="1503017072266" expanded="true" signature="2716:2774" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="2927:3049" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="2927:3069" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="2927:3092" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="2927:3117" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="2927:3122" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="2927:3144" ph="INSERT INTO Users... " />
-            <marker date="1503017072266" expanded="true" signature="3681:3717" ph="SELECT Displ... Users" />
-            <marker date="1503017072266" expanded="true" signature="3681:3727" ph="SELECT Displ... Users" />
-            <marker date="1503017072266" expanded="true" signature="3681:3744" ph="SELECT Displ... Users" />
-            <marker date="1503017072266" expanded="true" signature="3681:3745" ph="SELECT Displ... Users" />
-            <marker date="1503017072266" expanded="true" signature="4273:4368" ph="DELETE FROM " />
-            <marker date="1503017072266" expanded="true" signature="4309:4367" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="4487:4583" ph="DELETE FROM " />
-            <marker date="1503017072266" expanded="true" signature="4524:4582" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="4675:4726" ph="DELETE FROM " />
-            <marker date="1503017072266" expanded="true" signature="5216:5442" ph="SELECT UserI... BuddyList" />
-            <marker date="1503017072266" expanded="true" signature="5216:5443" ph="SELECT UserI... BuddyList" />
-            <marker date="1503017072266" expanded="true" signature="5284:5342" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="5382:5441" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="5581:5874" ph="INSERT INTO BuddyList... " />
-            <marker date="1503017072266" expanded="true" signature="5670:5728" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="5761:5820" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="5761:5874" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="6474:6693" ph="DELETE FROM " />
-            <marker date="1503017072266" expanded="true" signature="6535:6593" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="6633:6692" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="7088:7152" ph="SELECT Passw... Users" />
-            <marker date="1503017072266" expanded="true" signature="7698:7768" ph="SELECT Passw... Users" />
-            <marker date="1503017072266" expanded="true" signature="8454:8685" ph="SELECT Displ... Users" />
-            <marker date="1503017072266" expanded="true" signature="8626:8684" ph="SELECT UserI... Users" />
-            <marker date="1503017072266" expanded="true" signature="9267:9283" ph="DROP TABLE U... " />
-            <marker date="1503017072266" expanded="true" signature="9320:9340" ph="DROP TABLE B... " />
-            <marker date="1503017072266" expanded="true" signature="9671:9691" ph="SELECT * FRO... Users" />
-            <marker date="1503017072266" expanded="true" signature="10192:10216" ph="SELECT * FRO... BuddyList" />
+            <marker date="1503160027602" expanded="true" signature="1229:1626" ph="CREATE TABLE... Users" />
+            <marker date="1503160027602" expanded="true" signature="1728:2225" ph="CREATE TABLE... BuddyList" />
+            <marker date="1503160027602" expanded="true" signature="2716:2774" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="2927:3049" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="2927:3069" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="2927:3092" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="2927:3117" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="2927:3122" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="2927:3144" ph="INSERT INTO Users... " />
+            <marker date="1503160027602" expanded="true" signature="3681:3717" ph="SELECT Displ... Users" />
+            <marker date="1503160027602" expanded="true" signature="3681:3727" ph="SELECT Displ... Users" />
+            <marker date="1503160027602" expanded="true" signature="3681:3744" ph="SELECT Displ... Users" />
+            <marker date="1503160027602" expanded="true" signature="3681:3745" ph="SELECT Displ... Users" />
+            <marker date="1503160027602" expanded="true" signature="4273:4368" ph="DELETE FROM " />
+            <marker date="1503160027602" expanded="true" signature="4309:4367" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="4487:4583" ph="DELETE FROM " />
+            <marker date="1503160027602" expanded="true" signature="4524:4582" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="4675:4726" ph="DELETE FROM " />
+            <marker date="1503160027602" expanded="true" signature="5216:5442" ph="SELECT UserI... BuddyList" />
+            <marker date="1503160027602" expanded="true" signature="5216:5443" ph="SELECT UserI... BuddyList" />
+            <marker date="1503160027602" expanded="true" signature="5284:5342" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="5382:5441" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="5581:5874" ph="INSERT INTO BuddyList... " />
+            <marker date="1503160027602" expanded="true" signature="5670:5728" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="5761:5820" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="5761:5874" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="6474:6693" ph="DELETE FROM " />
+            <marker date="1503160027602" expanded="true" signature="6535:6593" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="6633:6692" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="7088:7152" ph="SELECT Passw... Users" />
+            <marker date="1503160027602" expanded="true" signature="7698:7768" ph="SELECT Passw... Users" />
+            <marker date="1503160027602" expanded="true" signature="8454:8685" ph="SELECT Displ... Users" />
+            <marker date="1503160027602" expanded="true" signature="8626:8684" ph="SELECT UserI... Users" />
+            <marker date="1503160027602" expanded="true" signature="9267:9283" ph="DROP TABLE U... " />
+            <marker date="1503160027602" expanded="true" signature="9320:9340" ph="DROP TABLE B... " />
+            <marker date="1503160027602" expanded="true" signature="9671:9691" ph="SELECT * FRO... Users" />
+            <marker date="1503160027602" expanded="true" signature="10192:10216" ph="SELECT * FRO... BuddyList" />
           </folding>
         </state>
       </provider>
@@ -1521,16 +1521,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="13" column="60" lean-forward="false" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/project/SessionManager/SessionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="46" column="35" lean-forward="false" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1557,8 +1547,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/project/ChatThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="265" column="17" lean-forward="true" selection-start-line="265" selection-start-column="17" selection-end-line="265" selection-end-column="17" />
+        <state relative-caret-position="226">
+          <caret line="232" column="118" lean-forward="true" selection-start-line="232" selection-start-column="118" selection-end-line="232" selection-end-column="118" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/project/SessionManager/SessionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="58" column="105" lean-forward="false" selection-start-line="58" selection-start-column="105" selection-end-line="58" selection-end-column="105" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

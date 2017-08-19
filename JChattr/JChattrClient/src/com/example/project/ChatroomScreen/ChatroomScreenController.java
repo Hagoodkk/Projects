@@ -51,6 +51,15 @@ public class ChatroomScreenController {
         users_list_view.setItems(users);
         messages = FXCollections.observableArrayList(new ArrayList<>());
         text_list_view.setItems(messages);
+
+        HBox hbox = new HBox();
+        hbox.setPrefWidth(1);
+        hbox.setAlignment(Pos.CENTER);
+        Label welcomeLabel = new Label("Welcome to " + chatroomName);
+        welcomeLabel.setStyle("-fx-font-style: italic; -fx-font-size: 80%");
+        welcomeLabel.setWrapText(true);
+        hbox.getChildren().add(welcomeLabel);
+        messages.add(hbox);
     }
 
     public void initData(String chatroomCategory, String chatroomName, ArrayList<String> chatroomUsers, String chatroomAdmin) {

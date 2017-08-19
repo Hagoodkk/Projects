@@ -323,6 +323,9 @@ public class BuddyListScreenController {
             treeItem.nullifyTimer();
         }
         SessionManager.getInstance().closeAllChatWindows();
+        if (SessionManager.getInstance().getChatroomController() != null) {
+            SessionManager.getInstance().getChatroomController().shutdown();
+        }
         SessionManager.getInstance().getWelcomeScreenController().showStage();
         sessionManager.nullify();
     }
