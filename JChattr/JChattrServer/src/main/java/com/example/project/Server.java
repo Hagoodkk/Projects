@@ -6,11 +6,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+    private static int portNumber = 10007;
+
     public static void main(String[] args) {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         databaseManager.createTables();
 
-        int portNumber = 80;
         ServerSocket serverSocket = startServer(portNumber);
 
         if (serverSocket == null) System.exit(1);
@@ -29,6 +30,7 @@ public class Server {
 
     public static void listenForClientConnections(ServerSocket serverSocket) {
         Socket clientSocket;
+        System.out.println("Listening on port " + portNumber);
 
         while (true) {
             try {

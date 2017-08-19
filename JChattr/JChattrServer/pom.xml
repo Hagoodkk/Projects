@@ -25,6 +25,50 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
+      <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>2.5.5</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>com.example.project.Server</mainClass>
+          </manifest>
+          <manifestEntries>
+            <!--this one is to add the version information in the manifest. This is something that I need but you can ignore it-->
+            <version>${project.version}</version>
+          </manifestEntries>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+        <finalName>${project.artifactId}</finalName>
+        <appendAssemblyId>false</appendAssemblyId>
+        <classifier>DEV</classifier>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-assembly</id> <!-- to inheritance merges -->
+          <phase>package</phase> <!-- just to use in the packaging phase -->
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <!--This plugin is used to have just one jar instead of 2-->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>3.0.2</version>
+      <configuration>
+        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+        <finalName>${project.artifactId}</finalName>
+        <outputDirectory>${project.build.directory}</outputDirectory>
+      </configuration>
+    </plugin>
+
+
     </plugins>
   </build>
 
