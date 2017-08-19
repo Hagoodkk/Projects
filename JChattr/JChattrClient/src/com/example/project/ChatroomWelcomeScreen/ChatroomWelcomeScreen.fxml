@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane fx:id="root" prefHeight="445.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.ChatroomWelcomeScreen.ChatroomWelcomeScreenController">
    <children>
       <ListView fx:id="categories_listview" layoutX="45.0" layoutY="73.0" onMouseClicked="#handleCategoryClickedAction" prefHeight="309.0" prefWidth="129.0" />
@@ -33,4 +34,7 @@
       <ListView layoutX="630.0" layoutY="73.0" prefHeight="309.0" prefWidth="129.0" fx:id="whos_chatting_list_view" onMouseClicked="#handleWhosChattingClickedAction"/>
       <Label alignment="CENTER" layoutX="629.0" layoutY="46.0" prefHeight="27.0" prefWidth="129.0" text="Who's Chatting" />
    </children>
+    <stylesheets>
+        <URL value="@ListViewStyleSheet.css" />
+    </stylesheets>
 </AnchorPane>

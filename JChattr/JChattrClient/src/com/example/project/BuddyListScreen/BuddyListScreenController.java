@@ -154,11 +154,20 @@ public class BuddyListScreenController {
                                     chatroomScreen.start(new Stage());
                             } else {
                                 SessionManager.getInstance().getChatroomController().addUser(displayName);
+                                SessionManager.getInstance().getChatroomController().appendUpdateMessage(displayName, "entered the chatroom.");
                             }
                         }
                         if (serverInbound.isLeftChatroom()) {
                             if (SessionManager.getInstance().getChatroomController() != null) {
                                 SessionManager.getInstance().getChatroomController().removeUser(serverInbound.getSenderDisplayName());
+                                SessionManager.getInstance().getChatroomController().appendUpdateMessage(serverInbound.getSenderDisplayName(), "left the chatroom.");
+                            }
+                        }
+                        if (serverInbound.isCarryingChatroomMessage()) {
+                            if (SessionManager.getInstance().getChatroomController() != null
+                                    && SessionManager.getInstance().getChatroomController().getChatroomName()
+                                    .equals(serverInbound.getChatroomCategoryAndName().getValue())) {
+                                SessionManager.getInstance().getChatroomController().appendMessage(serverInbound.getSenderDisplayName(), serverInbound.getChatroomMessage());
                             }
                         }
                         if (serverInbound.isLogOnEvent()) {

@@ -80,7 +80,13 @@ public class ChatroomWelcomeScreenController {
     public void handleEnterChatroomButtonAction(MouseEvent mouseEvent) {
         if (chatrooms_listview.getSelectionModel().getSelectedItem() != null) {
             String chatroomSelected = chatrooms_listview.getSelectionModel().getSelectedItem().toString();
-            if (SessionManager.getInstance().getChatroomController() != null) SessionManager.getInstance().getChatroomController().shutdown();
+            if (SessionManager.getInstance().getChatroomController() != null) {
+                if (SessionManager.getInstance().getChatroomController().getChatroomName().equals(chatroomSelected)) {
+                    SessionManager.getInstance().getChatroomController().focusWindow();
+                    return;
+                }
+                SessionManager.getInstance().getChatroomController().shutdown();
+            }
             Message message = new Message(true);
             message.setEnteredChatroom(true);
             message.setSenderDisplayName(SessionManager.getInstance().getDisplayName());

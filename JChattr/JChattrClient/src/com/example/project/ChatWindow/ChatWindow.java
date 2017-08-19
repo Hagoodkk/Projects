@@ -15,7 +15,7 @@ public class ChatWindow {
     private String username;
     private String recipientDisplayName;
 
-    public void start() throws Exception{
+    public void start() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatWindow.fxml"));
         Parent root = loader.load();
         ChatWindowController controller = loader.getController();

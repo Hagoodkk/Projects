@@ -6,12 +6,9 @@ import com.example.project.SessionManager.SessionManager;
 import javafx.util.Pair;
 import sun.net.ConnectionResetException;
 
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Kyle on 7/4/2017.
@@ -227,9 +224,7 @@ public class ChatThread implements Runnable {
                     clientOutbound.setNullMessage(true);
                 }
                 if (clientInbound.isChatroomCreateRequest()) {
-                    Pair<String,String> chatroomInfo = clientInbound.getChatroomCategoryAndName();
-                    String displayName = clientInbound.getSenderDisplayName();
-                    SessionManager.getInstance().addChatroom(displayName, chatroomInfo);
+                    createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
                 }
                 if (clientInbound.isLeftChatroom()) {
                     String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
@@ -247,6 +242,7 @@ public class ChatThread implements Runnable {
                         }
                     }
                 }
+
                 if (clientInbound.isEnteredChatroom()) {
                     String chatroomCategory = clientInbound.getChatroomCategoryAndName().getKey();
                     String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
@@ -260,8 +256,18 @@ public class ChatThread implements Runnable {
                     message.setChatroomCategoryAndName(clientInbound.getChatroomCategoryAndName());
                     message.setChatroomUsers(SessionManager.getInstance().getChatroomUsers().get(chatroomName));
 
+                    if (SessionManager.getInstance().getChatroomUsers().get(chatroomName) == null) {
+                        createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
+                        message.setChatroomUsers(SessionManager.getInstance().getChatroomUsers().get(chatroomName));
+                    }
                     for (String user : SessionManager.getInstance().getChatroomUsers().get(chatroomName)) {
                         SessionManager.getInstance().addOutgoingMessage(user.toLowerCase(), message);
+                    }
+                }
+                if (clientInbound.isCarryingChatroomMessage()) {
+                    Message message = clientInbound;
+                    for (String user : SessionManager.getInstance().getChatroomUsers().get(clientInbound.getChatroomCategoryAndName().getValue())) {
+                        SessionManager.getInstance().addOutgoingMessage(user, message);
                     }
                 }
                 toClient.writeObject(clientOutbound);
@@ -286,6 +292,10 @@ public class ChatThread implements Runnable {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private void createChatroom(String displayName, Pair<String, String> chatroomInfo) {
+        SessionManager.getInstance().addChatroom(displayName, chatroomInfo);
     }
 
     private BuddyList buildBuddyList(String username) {

@@ -4,13 +4,14 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import java.net.URL?>
 <AnchorPane maxHeight="463.0" maxWidth="734.0" minHeight="463.0" minWidth="734.0" prefHeight="463.0" prefWidth="734.0"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.ChatroomScreen.ChatroomScreenController"
             fx:id="root">
    <children>
       <TextField fx:id="text_entry_field" layoutX="14.0" layoutY="422.0" prefHeight="25.0" prefWidth="633.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="87.0" onKeyPressed="#handleKeyPressedAction"/>
       <Button fx:id="send_button" layoutX="658.0" layoutY="422.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Send" AnchorPane.leftAnchor="658.0" AnchorPane.rightAnchor="12.0" onMouseClicked="#handleSendButtonAction"/>
-      <ListView fx:id="users_list_view" layoutX="596.0" layoutY="42.0" prefHeight="365.0" prefWidth="124.0" />
+      <ListView fx:id="users_list_view" layoutX="596.0" layoutY="42.0" prefHeight="365.0" prefWidth="124.0" onMouseClicked="#handleUserClickedAction"/>
       <ListView fx:id="text_list_view" layoutX="14.0" layoutY="42.0" prefHeight="365.0" prefWidth="576.0" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="734.0">
         <menus>
@@ -32,4 +33,7 @@
         </menus>
       </MenuBar>
    </children>
+    <stylesheets>
+        <URL value="@ListViewStyleSheet.css" />
+    </stylesheets>
 </AnchorPane>

@@ -7,13 +7,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Message implements Serializable{
-    private String sender, recipient, message, salt, passwordSaltedHash, logOn, logOut;
-    private boolean error, nullMessage, buddyListUpdate, loginRequest, saltRequest, logOnEvent, logOutEvent, chatroomListingsRequest, chatroomCreateRequest, leftChatroom, enteredChatroom;
+    private String sender, recipient, message, salt, passwordSaltedHash, logOn, logOut, chatroomMessage;
+    private boolean error, nullMessage, buddyListUpdate, loginRequest, saltRequest, logOnEvent, logOutEvent, chatroomListingsRequest, chatroomCreateRequest, leftChatroom, enteredChatroom, carryingChatroomMessage;
     private BuddyList buddyList;
     private String senderDisplayName;
     private HashMap<String, ArrayList<String>> categories, users;
     private Pair<String, String> chatroomCategoryAndName;
     private ArrayList<String> chatroomUsers;
+
+    public String getChatroomMessage() {
+        return chatroomMessage;
+    }
+
+    public void setChatroomMessage(String chatroomMessage) {
+        this.chatroomMessage = chatroomMessage;
+    }
+
+    public boolean isCarryingChatroomMessage() {
+        return carryingChatroomMessage;
+    }
+
+    public void setCarryingChatroomMessage(boolean carryingChatroomMessage) {
+        this.carryingChatroomMessage = carryingChatroomMessage;
+    }
 
     public ArrayList<String> getChatroomUsers() {
         return chatroomUsers;
