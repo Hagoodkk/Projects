@@ -79,7 +79,7 @@ public class BuddyListScreenController {
             ioe.printStackTrace();
         }
 
-            int timerInterval = 1000;
+            int timerInterval = 50;
             timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
