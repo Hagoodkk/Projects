@@ -21,16 +21,8 @@ public class BuddyListScreen {
         buddyListStage.setTitle("Buddy List" + " (" + sessionManager.getDisplayName() + ")");
         buddyListStage.getIcons().add(new Image("images/appIcon.gif"));
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        double height = primaryScreenBounds.getHeight();
-        double width = primaryScreenBounds.getWidth() / 8;
-        Scene scene = new Scene(root, width, height);
-        buddyListStage.setScene(scene);
-        buddyListStage.setX(primaryScreenBounds.getMinX());
-        buddyListStage.setY(primaryScreenBounds.getMinY());
+        buddyListStage.setScene(new Scene(root));
         buddyListStage.setOnCloseRequest(e -> buddyListScreenController.shutdown());
-        buddyListStage.setMinHeight(height/4);
-        buddyListStage.setMinWidth(width/2);
         buddyListStage.show();
     }
 }

@@ -25,26 +25,18 @@ public class WelcomeScreen extends Application {
 
         welcomeScreenStage.getIcons().add(new Image("images/appIcon.gif"));
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        double height = primaryScreenBounds.getHeight();
-        double width = primaryScreenBounds.getWidth() / 8;
-        welcomeScreenStage.setX(primaryScreenBounds.getMinX());
-        welcomeScreenStage.setY(primaryScreenBounds.getMinY());
-        welcomeScreenStage.setMinHeight(height);
-        welcomeScreenStage.setMinWidth(width);
-
         welcomeScreenStage.setOnCloseRequest(e -> welcomeScreenController.shutdown());
 
-        welcomeScreenStage.setScene(new Scene(root, width, height));
+        welcomeScreenStage.setScene(new Scene(root));
 
         welcomeScreenStage.show();
     }
 
     public static void main(String[] args) {
         if (args.length > 0) {
-            SessionManager.getInstance().setServerAddress(args[0]);
-        } else {
             SessionManager.getInstance().setServerAddress("71.62.87.47");
+        } else {
+            SessionManager.getInstance().setServerAddress("10.0.0.88");
         }
         launch(args);
     }
