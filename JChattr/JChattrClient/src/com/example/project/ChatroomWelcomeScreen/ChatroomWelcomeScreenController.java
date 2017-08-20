@@ -107,6 +107,7 @@ public class ChatroomWelcomeScreenController {
 
             ChoiceBox<String> groupPicker = new ChoiceBox<>();
             groupPicker.setItems(FXCollections.observableArrayList(categoryList));
+            groupPicker.getSelectionModel().select(0);
 
             TextField chatroomNameText = new TextField();
 
