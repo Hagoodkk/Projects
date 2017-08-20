@@ -3,6 +3,7 @@ package com.example.project.CreateAccountScreen;
 import com.example.project.PasswordSalter.PasswordSalter;
 import com.example.project.Serializable.ServerHello;
 import com.example.project.Serializable.UserCredentials;
+import com.example.project.SessionManager.SessionManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +31,7 @@ public class CreateAccountScreenController {
     Parent root;
 
     private final int PORT_NUMBER = 10007;
-    private final String HOST_NAME = "10.0.0.88";
+    private final String HOST_NAME = SessionManager.getInstance().getServerAddress();
 
     public void initialize() {
         Platform.runLater(() -> username_input.requestFocus());

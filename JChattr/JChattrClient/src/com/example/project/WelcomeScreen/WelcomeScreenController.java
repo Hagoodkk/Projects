@@ -35,7 +35,7 @@ public class WelcomeScreenController {
     private ImageView welcome_image;
 
     private final int PORT_NUMBER = 10007;
-    private final String HOST_NAME = "10.0.0.88";
+    private final String HOST_NAME = SessionManager.getInstance().getServerAddress();
 
     SessionManager sessionManager = SessionManager.getInstance();
 

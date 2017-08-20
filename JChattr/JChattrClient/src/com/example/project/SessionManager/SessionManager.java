@@ -17,6 +17,8 @@ import java.util.Queue;
 public class SessionManager {
     private static SessionManager sessionManager;
 
+    private String serverAddress;
+
     private String username;
     private String displayName;
     private Socket clientSocket;
@@ -27,6 +29,14 @@ public class SessionManager {
     private HashMap<String, ChatWindowController> chatWindowControllers;
     private ChatroomScreenController chatroomScreenController;
     private ChatroomWelcomeScreenController chatroomWelcomeScreenController;
+
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
+    }
 
     public ChatroomWelcomeScreenController getChatroomWelcomeScreenController() {
         return chatroomWelcomeScreenController;
