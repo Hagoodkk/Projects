@@ -82,7 +82,8 @@ public class ChatroomScreenController {
         Message message = new Message(true);
         message.setSenderDisplayName(SessionManager.getInstance().getDisplayName());
         message.setLeftChatroom(true);
-        message.setChatroomCategoryAndName(new Pair<>(chatroomCategory, chatroomName));
+        message.setChatroomCategory(chatroomCategory);
+        message.setChatroomName(chatroomName);
         SessionManager.getInstance().addOutgoingMessage(message);
 
         Stage currentStage = (Stage) root.getScene().getWindow();
@@ -136,7 +137,8 @@ public class ChatroomScreenController {
 
         Message chatMessage = new Message(true);
         chatMessage.setCarryingChatroomMessage(true);
-        chatMessage.setChatroomCategoryAndName(new Pair<>(chatroomCategory, chatroomName));
+        chatMessage.setChatroomCategory(chatroomCategory);
+        chatMessage.setChatroomName(chatroomName);
         chatMessage.setChatroomMessage(message);
         chatMessage.setSenderDisplayName(SessionManager.getInstance().getDisplayName());
         SessionManager.getInstance().addOutgoingMessage(chatMessage);

@@ -174,8 +174,8 @@ public class ConnectionController {
                         }
                         ChatroomScreen chatroomScreen = new ChatroomScreen();
                         chatroomScreen.initData(
-                                serverInbound.getChatroomCategoryAndName().getKey(),
-                                serverInbound.getChatroomCategoryAndName().getValue(),
+                                serverInbound.getChatroomCategory(),
+                                serverInbound.getChatroomName(),
                                 serverInbound.getChatroomUsers(),
                                 "TestAdmin"
                         );
@@ -194,7 +194,7 @@ public class ConnectionController {
                 if (serverInbound.isCarryingChatroomMessage()) {
                     if (SessionManager.getInstance().getChatroomController() != null
                             && SessionManager.getInstance().getChatroomController().getChatroomName()
-                            .equals(serverInbound.getChatroomCategoryAndName().getValue())) {
+                            .equals(serverInbound.getChatroomName())) {
                         Platform.runLater(() -> SessionManager.getInstance().getChatroomController().appendMessage(serverInbound.getSenderDisplayName(), serverInbound.getChatroomMessage()));
                     }
                 }

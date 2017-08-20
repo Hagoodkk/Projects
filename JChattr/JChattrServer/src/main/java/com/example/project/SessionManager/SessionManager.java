@@ -2,7 +2,6 @@ package com.example.project.SessionManager;
 
 import com.example.project.DatabaseManager.DatabaseManager;
 import com.example.project.Serializable.Message;
-import javafx.util.Pair;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -52,7 +51,8 @@ public class SessionManager {
                 } else {
                     Message message = new Message(true);
                     message.setLeftChatroom(true);
-                    message.setChatroomCategoryAndName(new Pair<>(categoryName, chatroomName));
+                    message.setChatroomCategory(categoryName);
+                    message.setChatroomName(chatroomName);
                     message.setSenderDisplayName(displayName);
                     if (chatroomUsers.get(chatroomName) != null) {
                         for (String user : chatroomUsers.get(chatroomName)) {
@@ -73,10 +73,10 @@ public class SessionManager {
         chatroomCategories.put("Other", new ArrayList<>());
     }
 
-    public static void addChatroom(String displayName, Pair<String,String> chatroomCategoryAndName) {
-        chatroomCategories.get(chatroomCategoryAndName.getKey()).add(chatroomCategoryAndName.getValue());
-        chatroomUsers.put(chatroomCategoryAndName.getValue(), new ArrayList<>());
-        chatroomUsers.get(chatroomCategoryAndName.getValue()).add(displayName);
+    public static void addChatroom(String displayName, String chatroomCategory, String chatroomName) {
+        chatroomCategories.get(chatroomCategory).add(chatroomName);
+        chatroomUsers.put(chatroomName, new ArrayList<>());
+        chatroomUsers.get(chatroomName).add(displayName);
     }
 
     public static void addChatroomUser(String displayName, String chatroomCategory, String chatroomName) {
@@ -85,9 +85,7 @@ public class SessionManager {
         }
     }
 
-    public static void removeChatroomUser(String displayName, Pair<String, String> chatroomCategoryAndName) {
-        String chatroomCategory = chatroomCategoryAndName.getKey();
-        String chatroomName = chatroomCategoryAndName.getValue();
+    public static void removeChatroomUser(String displayName, String chatroomCategory, String chatroomName) {
 
         chatroomUsers.get(chatroomName).remove(displayName);
         if (chatroomUsers.get(chatroomName).size() == 0) {

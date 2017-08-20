@@ -90,7 +90,8 @@ public class ChatroomWelcomeScreenController {
             Message message = new Message(true);
             message.setEnteredChatroom(true);
             message.setSenderDisplayName(SessionManager.getInstance().getDisplayName());
-            message.setChatroomCategoryAndName(new Pair<>(currentCategory, chatroomSelected));
+            message.setChatroomCategory(currentCategory);
+            message.setChatroomName(chatroomSelected);
             SessionManager.getInstance().addOutgoingMessage(message);
         }
     }
@@ -144,8 +145,8 @@ public class ChatroomWelcomeScreenController {
             Message message = new Message(true);
             message.setChatroomCreateRequest(true);
             message.setSenderDisplayName(SessionManager.getInstance().getDisplayName());
-            Pair<String, String> chatroomInfo = new Pair<>(categoryPicked, chatroomName);
-            message.setChatroomCategoryAndName(chatroomInfo);
+            message.setChatroomCategory(categoryPicked);
+            message.setChatroomName(chatroomName);
             SessionManager.getInstance().addOutgoingMessage(message);
 
             if (SessionManager.getInstance().getChatroomController() != null) SessionManager.getInstance().getChatroomController().shutdown();

@@ -226,17 +226,18 @@ public class ChatThread implements Runnable {
                     clientOutbound.setNullMessage(true);
                 }
                 if (clientInbound.isChatroomCreateRequest()) {
-                    createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
+                    createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategory(), clientInbound.getChatroomName());
                 }
                 if (clientInbound.isLeftChatroom()) {
-                    String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
+                    String chatroomName = clientInbound.getChatroomName();
 
-                    SessionManager.getInstance().removeChatroomUser(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
+                    SessionManager.getInstance().removeChatroomUser(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategory(), clientInbound.getChatroomName());
                     ArrayList<String> usersInRoom = SessionManager.getInstance().getChatroomUsers().get(chatroomName);
 
                     Message message = new Message(true);
                     message.setLeftChatroom(true);
-                    message.setChatroomCategoryAndName(clientInbound.getChatroomCategoryAndName());
+                    message.setChatroomCategory(clientInbound.getChatroomCategory());
+                    message.setChatroomName(clientInbound.getChatroomName());
                     message.setSenderDisplayName(clientInbound.getSenderDisplayName());
                     if (usersInRoom != null) {
                         for (String user : usersInRoom) {
@@ -246,8 +247,8 @@ public class ChatThread implements Runnable {
                 }
 
                 if (clientInbound.isEnteredChatroom()) {
-                    String chatroomCategory = clientInbound.getChatroomCategoryAndName().getKey();
-                    String chatroomName = clientInbound.getChatroomCategoryAndName().getValue();
+                    String chatroomCategory = clientInbound.getChatroomCategory();
+                    String chatroomName = clientInbound.getChatroomName();
                     String displayName = clientInbound.getSenderDisplayName();
 
                     SessionManager.getInstance().addChatroomUser(displayName, chatroomCategory, chatroomName);
@@ -255,11 +256,12 @@ public class ChatThread implements Runnable {
                     Message message = new Message(true);
                     message.setEnteredChatroom(true);
                     message.setSenderDisplayName(clientInbound.getSenderDisplayName());
-                    message.setChatroomCategoryAndName(clientInbound.getChatroomCategoryAndName());
+                    message.setChatroomCategory(clientInbound.getChatroomCategory());
+                    message.setChatroomName(clientInbound.getChatroomName());
                     message.setChatroomUsers(SessionManager.getInstance().getChatroomUsers().get(chatroomName));
 
                     if (SessionManager.getInstance().getChatroomUsers().get(chatroomName) == null) {
-                        createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategoryAndName());
+                        createChatroom(clientInbound.getSenderDisplayName(), clientInbound.getChatroomCategory(), clientInbound.getChatroomName());
                         message.setChatroomUsers(SessionManager.getInstance().getChatroomUsers().get(chatroomName));
                     }
                     for (String user : SessionManager.getInstance().getChatroomUsers().get(chatroomName)) {
@@ -268,7 +270,7 @@ public class ChatThread implements Runnable {
                 }
                 if (clientInbound.isCarryingChatroomMessage()) {
                     Message message = clientInbound;
-                    for (String user : SessionManager.getInstance().getChatroomUsers().get(clientInbound.getChatroomCategoryAndName().getValue())) {
+                    for (String user : SessionManager.getInstance().getChatroomUsers().get(clientInbound.getChatroomName())) {
                         SessionManager.getInstance().addOutgoingMessage(user, message);
                     }
                 }
@@ -296,8 +298,8 @@ public class ChatThread implements Runnable {
         }
     }
 
-    private void createChatroom(String displayName, Pair<String, String> chatroomInfo) {
-        SessionManager.getInstance().addChatroom(displayName, chatroomInfo);
+    private void createChatroom(String displayName, String chatroomCategory, String chatroomName) {
+        SessionManager.getInstance().addChatroom(displayName, chatroomCategory, chatroomName);
     }
 
     private BuddyList buildBuddyList(String username) {

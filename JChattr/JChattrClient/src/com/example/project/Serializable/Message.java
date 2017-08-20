@@ -12,8 +12,24 @@ public class Message implements Serializable{
     private BuddyList buddyList;
     private String senderDisplayName;
     private HashMap<String, ArrayList<String>> categories, users;
-    private Pair<String, String> chatroomCategoryAndName;
+    private String chatroomCategory, chatroomName;
     private ArrayList<String> chatroomUsers;
+
+    public String getChatroomCategory() {
+        return chatroomCategory;
+    }
+
+    public void setChatroomCategory(String chatroomCategory) {
+        this.chatroomCategory = chatroomCategory;
+    }
+
+    public String getChatroomName() {
+        return chatroomName;
+    }
+
+    public void setChatroomName(String chatroomName) {
+        this.chatroomName = chatroomName;
+    }
 
     public String getChatroomMessage() {
         return chatroomMessage;
@@ -53,14 +69,6 @@ public class Message implements Serializable{
 
     public void setEnteredChatroom(boolean enteredChatroom) {
         this.enteredChatroom = enteredChatroom;
-    }
-
-    public Pair<String, String> getChatroomCategoryAndName() {
-        return chatroomCategoryAndName;
-    }
-
-    public void setChatroomCategoryAndName(Pair<String, String> chatroomCategoryAndName) {
-        this.chatroomCategoryAndName = chatroomCategoryAndName;
     }
 
     public boolean isChatroomCreateRequest() {
