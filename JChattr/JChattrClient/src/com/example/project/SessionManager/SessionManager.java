@@ -1,5 +1,6 @@
 package com.example.project.SessionManager;
 
+import ConnectionController.ConnectionController;
 import com.example.project.BuddyListScreen.BuddyListScreenController;
 import com.example.project.ChatWindow.ChatWindowController;
 import com.example.project.ChatroomScreen.ChatroomScreenController;
@@ -17,7 +18,7 @@ import java.util.Queue;
 public class SessionManager {
     private static SessionManager sessionManager;
 
-    private String serverAddress;
+    private ConnectionController connectionController;
 
     private String username;
     private String displayName;
@@ -30,12 +31,16 @@ public class SessionManager {
     private ChatroomScreenController chatroomScreenController;
     private ChatroomWelcomeScreenController chatroomWelcomeScreenController;
 
-    public String getServerAddress() {
-        return serverAddress;
+    public ConnectionController getConnectionController() {
+        return connectionController;
     }
 
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
+    public void setConnectionController(ConnectionController connectionController) {
+        this.connectionController = connectionController;
+    }
+
+    public void setConnectionInformation(String hostName, int portNumber) {
+        connectionController = new ConnectionController(hostName, portNumber);
     }
 
     public ChatroomWelcomeScreenController getChatroomWelcomeScreenController() {

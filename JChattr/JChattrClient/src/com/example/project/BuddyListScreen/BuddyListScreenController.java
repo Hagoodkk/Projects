@@ -49,14 +49,8 @@ public class BuddyListScreenController {
     @FXML
     HBox buddylist_icon_hbox;
 
-    private Timer timer;
-
     private SessionManager sessionManager = SessionManager.getInstance();
-    private Socket clientSocket = sessionManager.getClientSocket();
     private String username = sessionManager.getUsername();
-
-    private ObjectOutputStream toServer;
-    private ObjectInputStream fromServer;
 
     private HashMap<String, CustomTreeItem> groups;
     private HashMap<String, CustomTreeItem> onlineUsers = new HashMap<>();
@@ -71,143 +65,35 @@ public class BuddyListScreenController {
         Media media = new Media(getClass().getClassLoader().getResource("sounds/395798__lipsumdolor__computer-startup.wav").toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
+    }
 
-        try {
-            toServer = new ObjectOutputStream(clientSocket.getOutputStream());
-            fromServer = new ObjectInputStream(clientSocket.getInputStream());
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+    public void addUserToBuddyList(String buddyUsername, String buddyDisplayName, String buddyGroupName, boolean buddyOnline) {
+        if (groups.get(buddyGroupName) == null) {
+            CustomTreeItem groupItem = new CustomTreeItem(new HBox(), buddyGroupName, true, false);
+            groups.get("root").getChildren().add(0, groupItem);
+            groups.put(buddyGroupName, groupItem);
         }
 
-            int timerInterval = 50;
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                    Message serverOutbound;
-                    if (sessionManager.getOutgoingQueue().isEmpty()) {
-                        serverOutbound = new Message(true);
-                    } else {
-                        serverOutbound = sessionManager.getOutgoingQueue().remove();
-                    }
+        CustomTreeItem treeItem = new CustomTreeItem(new HBox(), buddyDisplayName, null);
 
-                    try {
-                        toServer.writeObject(serverOutbound);
-                        toServer.flush();
-                        Message serverInbound = (Message) fromServer.readObject();
-
-                        if (serverInbound.isBuddyListUpdate()) {
-                            System.out.println("Buddy List update time");
-                            String buddyUsername = serverInbound.getBuddyList().getBuddies().get(0).getUsername();
-                            System.out.println(buddyUsername);
-                            String buddyDisplayName = serverInbound.getBuddyList().getBuddies().get(0).getDisplayName();
-                            String buddyGroupName = serverInbound.getBuddyList().getBuddies().get(0).getGroupName();
-
-                            if (serverInbound.getBuddyList().isAddUser()) {
-                                if (groups.get(buddyGroupName) == null) {
-                                    CustomTreeItem groupItem = new CustomTreeItem(new HBox(), buddyGroupName, true, false);
-                                    groups.get("root").getChildren().add(0, groupItem);
-                                    groups.put(buddyGroupName, groupItem);
-                                }
-
-                                CustomTreeItem treeItem = new CustomTreeItem(new HBox(), buddyDisplayName, null);
-
-                                if (serverInbound.getBuddyList().getCurrentlyOnline().size() == 0) {
-                                    offlineUsers.put(buddyUsername, treeItem);
-                                    groups.get("offline").getChildren().add(treeItem);
-                                } else {
-                                    onlineUsers.put(buddyUsername, treeItem);
-                                    groups.get(buddyGroupName).getChildren().add(treeItem);
-                                }
-                                sessionManager.getBuddyList().addBuddy(new Buddy(buddyUsername, buddyDisplayName, buddyGroupName));
-                            } else if (serverInbound.getBuddyList().isDeleteUser()) {
-                                CustomTreeItem treeItem;
-                                if ((treeItem = offlineUsers.get(buddyUsername)) != null) {
-                                    offlineUsers.remove(buddyUsername);
-                                    groups.get("offline").getChildren().remove(treeItem);
-                                } else if ((treeItem = onlineUsers.get(buddyUsername)) != null) {
-                                    onlineUsers.remove(treeItem);
-                                    groups.get(buddyGroupName).getChildren().remove(treeItem);
-                                }
-                            }
-                        }
-                        if (serverInbound.isChatroomListingsRequest()) {
-                            if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) {
-                                SessionManager.getInstance().getChatroomWelcomeScreenController().fillCategories(
-                                        serverInbound.getCategories(),
-                                        serverInbound.getUsers()
-                                );
-                            }
-                        }
-                        if (serverInbound.isEnteredChatroom()) {
-                            String displayName = serverInbound.getSenderDisplayName();
-                            if (username.equalsIgnoreCase(displayName)) {
-                                if (SessionManager.getInstance().getChatroomController() != null) SessionManager.getInstance().getChatroomController().shutdown();
-                                    ChatroomScreen chatroomScreen = new ChatroomScreen();
-                                    chatroomScreen.initData(
-                                            serverInbound.getChatroomCategoryAndName().getKey(),
-                                            serverInbound.getChatroomCategoryAndName().getValue(),
-                                            serverInbound.getChatroomUsers(),
-                                            "TestAdmin"
-                                    );
-                                    chatroomScreen.start(new Stage());
-                            } else {
-                                SessionManager.getInstance().getChatroomController().addUser(displayName);
-                                SessionManager.getInstance().getChatroomController().appendUpdateMessage(displayName, "entered the chatroom.");
-                            }
-                        }
-                        if (serverInbound.isLeftChatroom()) {
-                            if (SessionManager.getInstance().getChatroomController() != null) {
-                                SessionManager.getInstance().getChatroomController().removeUser(serverInbound.getSenderDisplayName());
-                                SessionManager.getInstance().getChatroomController().appendUpdateMessage(serverInbound.getSenderDisplayName(), "left the chatroom.");
-                            }
-                        }
-                        if (serverInbound.isCarryingChatroomMessage()) {
-                            if (SessionManager.getInstance().getChatroomController() != null
-                                    && SessionManager.getInstance().getChatroomController().getChatroomName()
-                                    .equals(serverInbound.getChatroomCategoryAndName().getValue())) {
-                                SessionManager.getInstance().getChatroomController().appendMessage(serverInbound.getSenderDisplayName(), serverInbound.getChatroomMessage());
-                            }
-                        }
-                        if (serverInbound.isLogOnEvent()) {
-                            updateBuddyList(serverInbound.getLogOn(), 0);
-                        }
-                        if (serverInbound.isLogOutEvent()) {
-                            updateBuddyList(serverInbound.getLogOut(), 1);
-                        }
-                        if (!serverInbound.isNullMessage()) {
-                            System.out.println(serverInbound.getMessage());
-                            ChatWindowController controller =
-                                    sessionManager.getChatWindowController(username, serverInbound.getSender());
-                            if (controller != null) {
-                                controller.appendText(serverInbound.getSender(), serverInbound.getMessage());
-                            } else {
-                                ChatWindow chatWindow = new ChatWindow();
-                                chatWindow.initData(username, serverInbound.getSenderDisplayName());
-                                try {
-                                    chatWindow.start();
-                                    ChatWindowController controller2 =
-                                            sessionManager.getChatWindowController(username, serverInbound.getSender());
-                                    controller2.appendText(serverInbound.getSender(), serverInbound.getMessage());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                    catch (SocketException se) {
-                        se.printStackTrace();
-                    }
-                    catch (IOException ioe) {
-                        ioe.printStackTrace();
-                    } catch (ClassNotFoundException cnfe) {
-                        cnfe.printStackTrace();
-                    }
-                });
-                }
-            }, 0, timerInterval);
-
+        if (buddyOnline) {
+            offlineUsers.put(buddyUsername, treeItem);
+            groups.get("offline").getChildren().add(treeItem);
+        } else {
+            onlineUsers.put(buddyUsername, treeItem);
+            groups.get(buddyGroupName).getChildren().add(treeItem);
+        }
+        sessionManager.getBuddyList().addBuddy(new Buddy(buddyUsername, buddyDisplayName, buddyGroupName));
+    }
+    public void deleteUserFromBuddyList(String buddyUsername, String buddyGroupName) {
+        CustomTreeItem treeItem;
+        if ((treeItem = offlineUsers.get(buddyUsername)) != null) {
+            offlineUsers.remove(buddyUsername);
+            groups.get("offline").getChildren().remove(treeItem);
+        } else if ((treeItem = onlineUsers.get(buddyUsername)) != null) {
+            onlineUsers.remove(treeItem);
+            groups.get(buddyGroupName).getChildren().remove(treeItem);
+        }
     }
 
     private void buildBuddyList(BuddyList buddyList) {
@@ -247,7 +133,7 @@ public class BuddyListScreenController {
         buddylist_icon_hbox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
     }
 
-    private void updateBuddyList(String sender, int state) {
+    public void updateBuddyList(String sender, int state) {
         if (!sessionManager.getBuddyList().hasBuddy(sender)) return;
         String groupName = sessionManager.getBuddyList().getGroupName(sender);
         CustomTreeItem treeItem;
@@ -302,17 +188,6 @@ public class BuddyListScreenController {
     }
 
     public void shutdown() {
-        timer.cancel();
-        timer.purge();
-        /*
-            This block of for loops MUST be kept in the program.
-            The CustomTreeItem class uses Timers. Whenever timers
-            are instantiated, it creates a thread whether or not
-            any action has ever been scheduled on them. So if they
-            are not nullified, the threads will never be cancelled
-            which will create major memory leaks and will not allow
-            the halting of the program.
-         */
         for (CustomTreeItem treeItem : groups.values()) {
             treeItem.nullifyTimer();
         }
@@ -367,11 +242,6 @@ public class BuddyListScreenController {
         sessionManager.addOutgoingMessage(message);
     }
 
-    public void handleChatRoomTestButtonAction(MouseEvent mouseEvent) {
-        ChatroomScreen chatroomScreen = new ChatroomScreen();
-        chatroomScreen.initData("Test Category","Test Room", new ArrayList<>(),"Test Admin");
-        chatroomScreen.start(new Stage());
-    }
 
     public void handleTestChatroomListingsButtonAction(ActionEvent actionEvent) {
         if (SessionManager.getInstance().getChatroomWelcomeScreenController() != null) return;
