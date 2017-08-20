@@ -35,7 +35,7 @@ public class Server {
         while (true) {
             try {
                 clientSocket = serverSocket.accept();
-                System.out.println("Client connected.");
+                System.out.println("Client connected from address " + clientSocket.getInetAddress());
                 ChatThread chatThread = new ChatThread(clientSocket);
                 Thread newThread = new Thread(chatThread);
                 newThread.start();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DatabaseManagerTest {
-//    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
 //
 //    @Test
 //    public void stage1_createTablesTest() throws Exception {

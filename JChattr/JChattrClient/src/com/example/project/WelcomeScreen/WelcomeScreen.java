@@ -26,7 +26,7 @@ public class WelcomeScreen extends Application {
 
     public static void main(String[] args) {
         // Instantiation of connection host/port here
-        String hostName = (args.length > 0) ? "71.62.87.47" : "10.0.0.88";
+        String hostName = (args.length > 0) ? "10.0.0.88" : "71.62.87.47";
         int portNumber = 10007;
         SessionManager.getInstance().setConnectionInformation(hostName, portNumber);
         launch(args);

@@ -155,7 +155,6 @@ public class SessionManager {
     }
 
     public static void broadcastStateUpdate(String username, int state) {
-        System.out.println("Broadcasting system update with " + username + " and state number " + state);
         Message message = new Message();
         message.setNullMessage(true);
         if (state == 0) {
