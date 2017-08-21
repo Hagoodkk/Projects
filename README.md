@@ -9,6 +9,9 @@
     --------------------------------
     JChattr is currently hosted on a RaspberryPi and can be accessed publicly.
     - **[JChattrClient](https://www.dropbox.com/s/d0sedy8yougbafi/JChattrClient.jar?dl=0)**
+    - Download the executable JAR file above, and double-click it to get started
+    - Accounts "Bob" and "Carl" have been created for testing purposes, both with password "m"
+    - Log in to the test accounts and play around with the app. If you make your own accounts to talk with each other, know that a name cannot be added to the buddy list until the account for that name is created.
     
      *Behavioral Features*
      ---------------------------------
