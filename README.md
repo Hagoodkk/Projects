@@ -10,7 +10,6 @@
      - [x] **Instant Messaging**
      - [x] **Dynamic Buddy Lists**
      - [x] **Chatrooms**
-     ----------------------------------
      
       *Technical Features*
     ------------------------------------
