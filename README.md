@@ -3,7 +3,7 @@
 *In this section, you will find a collection of personal and school projects for demonstration.*
 
 **Table of Contents**
-**JChattr (Personal Project)** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. IntelliJ IDE used for development and application runs on this platform. Note when testing that the "Add Buddy" button references the Server's database for the buddy being added, so only users that are registered with the app can be added to the buddy list. Simply create two accounts for testing purposes, then add each to each other's list.
+1. **JChattr (Personal Project)** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. IntelliJ IDE used for development and application runs on this platform. Note when testing that the "Add Buddy" button references the Server's database for the buddy being added, so only users that are registered with the app can be added to the buddy list. Simply create two accounts for testing purposes, then add each to each other's list.
 
     *Check It Out!*
     --------------------------------
