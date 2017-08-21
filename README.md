@@ -5,6 +5,13 @@
 **Table of Contents**
 1. **JChattr (Personal Project)** - chat application with a multi-threaded server that accepts client connections through the uses of sockets. It uses data streams and serializable objects to pass back and forth information. JavaFX is used for UI development. IntelliJ IDE used for development and application runs on this platform. Note when testing that the "Add Buddy" button references the Server's database for the buddy being added, so only users that are registered with the app can be added to the buddy list. Simply create two accounts for testing purposes, then add each to each other's list.
 
+     *Behavioral Features*
+     ---------------------------------
+     - [x] **Instant Messaging**
+     - [x] **Dynamic Buddy Lists**
+     - [x] **Chatrooms**
+     ----------------------------------
+     
       *Technical Features*
     ------------------------------------
       - [x] **Object Data Streams** - with sockets and serializable objects. Sends information back and forth between client/server 20x/sec, making for instant message delivery.
